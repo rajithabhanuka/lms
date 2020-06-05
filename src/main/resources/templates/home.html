@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+<body>
+
+<div sec:authorize="isAuthenticated()">
+    <div class="row">
+        <div class="col-md-10">
+            <h3 class="text-center text-muted">
+                Welcome to the Dashboard [[${#httpServletRequest.remoteUser}]]!
+            </h3>
+        </div>
+
+        <div class="col-md-2">
+            <h3>
+                <form role="form" th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-md btn-link">
+                        Sign Out
+                    </button>
+                </form>
+            </h3>
+        </div>
+    </div>
+</div>
+<div sec:authorize="hasAuthority('STUDENT')">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <section class="content-header">
+                    <ol class="breadcrumb">
+                        <li class="active"><a th:href="@{/changepassword}">
+                            <i class="fa fa-dashboard"></i>
+                            <span>Change Password</span>
+                        </a></li>
+                        <li class="active"><a th:href="@{/viewexams}">
+                            <i class="fa fa-dashboard"></i>
+                            <span>Access Exam</span>
+                        </a></li>
+                        <li class="active"><a th:href="@{/viewmyresult}">
+                            <i class="fa fa-dashboard"></i>
+                            <span>View Results</span>
+                        </a></li>
+                    </ol>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+<div sec:authorize="hasAuthority('TEACHER')">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <section class="content-header">
+                    <ol class="breadcrumb">
+                        <li ><a th:href="@{/create}">
+                            <i class="fa fa-dashboard"></i>
+                            <span>Create User</span>
+                        </a></li>
+                        <li ><a th:href="@{/createexam}">
+                            <i class="fa fa-dashboard"></i>
+                            <span>Create Exam</span>
+                        </a></li>
+                        <li ><a th:href="@{/viewresults}">
+                            <i class="fa fa-dashboard"></i>
+                            <span>View Results</span>
+                        </a></li>
+                    </ol>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

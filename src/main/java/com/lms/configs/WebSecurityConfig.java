@@ -33,8 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/student_home").hasAuthority(Role.STUDENT.getRole())
-                .antMatchers("/teacher_home").hasAuthority(Role.TEACHER.getRole()).anyRequest()
+                .anyRequest()
                 .authenticated().and().csrf().disable().formLogin().successHandler(authenticationHandler)
                 .loginPage("/login").failureUrl("/login?error=true")
                 .usernameParameter("email")

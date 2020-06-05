@@ -45,4 +45,19 @@ public class UserAccountServiceImpl implements UserAccountService {
         roles.add(new SimpleGrantedAuthority(user.getRole().toString()));
         return new ArrayList<>(roles);
     }
+
+    @Override
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    public List<User> getAll() {
+        return null;
+    }
+
+    @Override
+    public void delete(User account) {
+
+    }
 }

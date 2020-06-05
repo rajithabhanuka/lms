@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New User</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+<body>
+
+
+<div sec:authorize="isAuthenticated()">
+    <div class="row">
+        <div class="col-md-10">
+            <h3 class="text-center text-muted">
+                Welcome to the Dashboard [[${#httpServletRequest.remoteUser}]]!
+            </h3>
+        </div>
+
+        <div class="col-md-2">
+            <h3>
+                <form role="form" th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn btn-md btn-link">
+                        Sign Out
+                    </button>
+                </form>
+            </h3>
+        </div>
+    </div>
+</div>
+
+<div sec:authorize="hasAuthority('TEACHER')">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <section class="content-header">
+                    <ol class="breadcrumb">
+                        <li class="active"><a th:href="@{/create}">
+                            <i class="fa fa-dashboard"></i>
+                            <span>Create User</span>
+                        </a></li>
+                        <li ><a th:href="@{/createexam}">
+                            <i class="fa fa-dashboard"></i>
+                            <span>Create Exam</span>
+                        </a></li>
+                        <li ><a th:href="@{/viewresults}">
+                            <i class="fa fa-dashboard"></i>
+                            <span>View Results</span>
+                        </a></li>
+                    </ol>
+                </section>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <h3 class="text-center">
+                    Create New Teacher / Student
+                </h3>
+                <form role="form">
+                    <div class="form-group">
+                        <label for="txt-email">
+                            Email address
+                        </label>
+                        <input type="text" class="form-control" id="txt-email" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txt-name">
+                            Name
+                        </label>
+                        <input type="text" class="form-control" id="txt-name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="role">
+                            Select Role
+                        </label>
+                        <select class="form-control" id="role">
+                            <option value="" disabled selected>Choose your option</option>
+                            <option value="1">TEACHER</option>
+                            <option value="2">STUDENT</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txt-password-1">
+                            Password
+                        </label>
+                        <input type="password" class="form-control" id="txt-password-1" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txt-password-2">
+                            Confirm Password
+                        </label>
+                        <input type="password" class="form-control" id="txt-password-2" />
+                    </div>
+
+                    <div class="box-footer">
+                        <button id="create-user" class="btn btn-primary">Save</button>
+                    </div>
+
+                </form>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+<script th:src="@{plugins/jQuery/jQuery-2.2.0.min.js}"></script>
+
+<script>
+    function comparePass(pass, confPass) {
+        if (pass.localeCompare(confPass) === 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    $('#create-user').on('click', function () {
+        var email = $('#txt-email').val();
+        var name = $('#txt-name').val();
+        var role = $('#role').val();
+        var pass1 = $('#txt-password-1').val();
+        var pass2 = $('#txt-password-2').val();
+
+        var checkpasswords = comparePass(pass1, pass2);
+
+        if (!checkpasswords) {
+           alert("Passwords did't match!");
+           return;
+        }
+
+        var newUserCredentials = {'email': email, 'name': name, 'role': role,  'password': pass1};
+
+        $.ajax({
+            async: false,
+            method: "POST",
+            url: '/createuser',
+            data: JSON.stringify(newUserCredentials),
+            dataType: 'json',
+            contentType: 'application/json',
+            cache: false,
+            success: function (ret) {
+                if (ret.status === 'SUCCESS') {
+                    alert("User created!");
+                } else {
+                    alert("Credentials not created!");
+                }
+            },
+            error: function (xhr, status, err) {
+                alert("Server cannot be reached!");
+            }
+        });
+    });
+
+</script>

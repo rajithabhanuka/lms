@@ -33,14 +33,14 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
 
         for (GrantedAuthority auth : authentication.getAuthorities()) {
             if (Role.TEACHER.getRole().equals(auth.getAuthority())) {
-                httpServletResponse.sendRedirect("/teacher_home");
+                httpServletResponse.sendRedirect("/home");
             }else if (Role.STUDENT.getRole().equals(auth.getAuthority())) {
-                httpServletResponse.sendRedirect("/student_home");
+                httpServletResponse.sendRedirect("/home");
             }
         }
 
-        String userName = ((User)authentication.getPrincipal()).getUsername();
-        com.lms.model.User user = userRepository.findByEmail(userName);
-        session.setAttribute("USER", user);
+        //String userName = ((User)authentication.getPrincipal()).getUsername();
+        //com.lms.model.User user = userRepository.findByEmail(userName);
+        session.setAttribute("USER", "TEACHER");
     }
 }

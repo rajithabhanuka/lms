@@ -15,4 +15,10 @@ public class LoginController {
         model.addAttribute("accountDto", new AccountDto());
         return "login";
     }
+
+
+//    @RequestMapping(value = "/", method = RequestMethod.GET)
+//    public String index() {
+//        return "home";
+//    }
 }
