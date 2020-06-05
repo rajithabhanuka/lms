@@ -1,11 +1,18 @@
 package com.lms.model;
 
-public class Account {
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
+public class User {
+
+    @Id
     private String id;
+
     private String email;
     private String password;
     private Role role = Role.STUDENT;
+    private String regtime;
 
     public String getId() {
         return id;
@@ -39,5 +46,11 @@ public class Account {
         this.role = role;
     }
 
+    public String getRegtime() {
+        return regtime;
+    }
 
+    public void setRegtime(String regtime) {
+        this.regtime = regtime;
+    }
 }

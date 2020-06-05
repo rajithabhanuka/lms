@@ -1,9 +1,9 @@
 package com.lms.configs;
 
 import com.lms.model.Role;
-import com.lms.service.AccountService;
+import com.lms.security.AuthenticationHandler;
+import com.lms.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,10 +19,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private AccountService accountService;
+    private UserAccountService userAccountService;
 
     @Autowired
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
+    private AuthenticationHandler authenticationHandler;
 
     @Override
     public void configure(WebSecurity web) {
@@ -33,32 +33,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/").hasAuthority(Role.STUDENT.getRole()).anyRequest()
-                .authenticated().and().csrf().disable().formLogin().successHandler(authenticationSuccessHandler)
+                .antMatchers("/student_home").hasAuthority(Role.STUDENT.getRole())
+                .antMatchers("/teacher_home").hasAuthority(Role.TEACHER.getRole()).anyRequest()
+                .authenticated().and().csrf().disable().formLogin().successHandler(authenticationHandler)
                 .loginPage("/login").failureUrl("/login?error=true")
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login?success=true").and().exceptionHandling();
-    }
 
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("admin")
-//                        .password("admin")
-//                        .roles("USER")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user);
-//    }
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(accountService)
+        auth.userDetailsService(userAccountService)
                 .passwordEncoder(new PasswordEncoder() {
                     @Override
                     public String encode(CharSequence charSequence) {

@@ -8,10 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class LoginController {
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index() {
-        return "home";
-    }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model) {
