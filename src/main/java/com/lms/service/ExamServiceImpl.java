@@ -31,4 +31,9 @@ public class ExamServiceImpl implements ExamService{
     public void delete(Exam exam) {
 
     }
+
+    @Override
+    public List<Exam> getExamByTeacher(String teacherId) {
+        return examRepository.getExamByTeacher(teacherId);
+    }
 }

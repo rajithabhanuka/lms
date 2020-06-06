@@ -9,13 +9,17 @@ import com.lms.service.ExamService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 
 /*
  * Created by Bhanuka
@@ -69,5 +73,13 @@ public class ExamController {
         }
 
         return response;
+    }
+
+    @RequestMapping(value = "/assign_quizz", method = RequestMethod.GET)
+    public String assign_quizz_view(HttpServletRequest request, Model model) {
+
+        List<Exam> exams = examService.getExamByTeacher((String) request.getSession().getAttribute("USER_ID"));
+        model.addAttribute("exams", exams);
+        return "assign_quizz";
     }
 }
