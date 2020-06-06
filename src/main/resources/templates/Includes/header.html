@@ -2,6 +2,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 <div th:fragment="header" sec:authorize="isAuthenticated()">
+    <input type="hidden" id="txt-user-id" th:value="${session.USER_ID}" th:unless="${session == null}"></input>
     <div class="row">
         <div class="col-md-10">
             <h3 class="text-center text-muted">

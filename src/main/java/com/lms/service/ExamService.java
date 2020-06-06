@@ -5,6 +5,10 @@ import com.lms.model.User;
 
 import java.util.List;
 
+/*
+ * Created by Bhanuka
+ * */
+
 public interface ExamService {
 
     Exam save(Exam exam);

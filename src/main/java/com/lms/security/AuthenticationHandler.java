@@ -43,8 +43,8 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler {
             }
         }
 
-        //String userName = ((User)authentication.getPrincipal()).getUsername();
-        //com.lms.model.User user = userRepository.findByEmail(userName);
-        session.setAttribute("USER", "TEACHER");
+        String userName = ((User)authentication.getPrincipal()).getUsername();
+        com.lms.model.User user = userRepository.findByEmail(userName);
+        session.setAttribute("USER_ID", user.getId());
     }
 }

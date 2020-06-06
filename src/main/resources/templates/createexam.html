@@ -85,7 +85,7 @@
         var duration = $('#txt-time').val();
         var availabledate = $('#txt-available').val();
         var duedate = $('#txt-due').val();
-        var teacherId = 1;
+        var teacherId = $('#txt-user-id').val();
 
         var checkdates = comparedates(new Date(availabledate), new Date(duedate));
 

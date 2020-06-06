@@ -63,7 +63,7 @@ public class UserController {
 
         } catch (Exception ex) {
             LOGGER.error(ex);
-            return new CustomResponse(Constants.CREATE_ERROR, "FAIL").toJson();
+            response = new CustomResponse(Constants.CREATE_ERROR, "FAIL").toJson();
         }
 
         return response;

@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/*
+ * Created by Bhanuka
+ * */
+
 @Service
 public class ExamServiceImpl implements ExamService{
 
@@ -15,7 +19,7 @@ public class ExamServiceImpl implements ExamService{
 
     @Override
     public Exam save(Exam exam) {
-        return null;
+        return examRepository.save(exam);
     }
 
     @Override
