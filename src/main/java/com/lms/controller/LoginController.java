@@ -11,14 +11,18 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model) {
-
         model.addAttribute("accountDto", new AccountDto());
         return "login";
     }
 
 
-//    @RequestMapping(value = "/", method = RequestMethod.GET)
-//    public String index() {
-//        return "home";
-//    }
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public String home() {
+        return "home";
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String root() {
+        return "home";
+    }
 }

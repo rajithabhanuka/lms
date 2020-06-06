@@ -11,25 +11,8 @@
 </head>
 <body>
 
-<div sec:authorize="isAuthenticated()">
-    <div class="row">
-        <div class="col-md-10">
-            <h3 class="text-center text-muted">
-                Welcome to the Dashboard [[${#httpServletRequest.remoteUser}]]!
-            </h3>
-        </div>
+<div th:replace='Includes/header.html :: header'/>
 
-        <div class="col-md-2">
-            <h3>
-                <form role="form" th:action="@{/logout}" method="post">
-                    <button type="submit" class="btn btn-md btn-link">
-                        Sign Out
-                    </button>
-                </form>
-            </h3>
-        </div>
-    </div>
-</div>
 <div sec:authorize="hasAuthority('STUDENT')">
     <div class="container-fluid">
 
@@ -59,24 +42,7 @@
     <div class="container-fluid">
 
         <div class="row">
-            <div class="col-md-12">
-                <section class="content-header">
-                    <ol class="breadcrumb">
-                        <li ><a th:href="@{/create}">
-                            <i class="fa fa-dashboard"></i>
-                            <span>Create User</span>
-                        </a></li>
-                        <li ><a th:href="@{/createexam}">
-                            <i class="fa fa-dashboard"></i>
-                            <span>Create Exam</span>
-                        </a></li>
-                        <li ><a th:href="@{/viewresults}">
-                            <i class="fa fa-dashboard"></i>
-                            <span>View Results</span>
-                        </a></li>
-                    </ol>
-                </section>
-            </div>
+            <div th:replace='Includes/teachermenu.html :: teachermenu'/>
         </div>
     </div>
 </div>

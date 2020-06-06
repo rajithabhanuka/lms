@@ -1,0 +1,21 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<div th:fragment="teachermenu" class="col-md-12">
+    <section class="content-header">
+        <ol class="breadcrumb">
+            <li class="active"><a th:href="@{/createuser}">
+                <i class="fa fa-dashboard"></i>
+                <span>Create User</span>
+            </a></li>
+            <li ><a th:href="@{/createexam}">
+                <i class="fa fa-dashboard"></i>
+                <span>Create Exam</span>
+            </a></li>
+            <li ><a th:href="@{/viewresults}">
+                <i class="fa fa-dashboard"></i>
+                <span>View Results</span>
+            </a></li>
+        </ol>
+    </section>
+</div>

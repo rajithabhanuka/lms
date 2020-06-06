@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Exam</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+<body>
+
+<div th:replace='Includes/header.html :: header'/>
+
+<div sec:authorize="hasAuthority('TEACHER')">
+    <div class="container-fluid">
+        <div class="row">
+            <div th:replace='Includes/teachermenu.html :: teachermenu'/>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <h3 class="text-center">
+                    Create New Exam
+                </h3>
+                <form role="form">
+                    <div class="form-group">
+                        <label for="txt-exam-name">
+                            Exam Name
+                        </label>
+                        <input type="text" class="form-control" id="txt-exam-name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txt-time">
+                            Time Duration in Minutes
+                        </label>
+                        <input type="text" class="form-control" id="txt-time" />
+                    </div>
+
+                    <div class="box-footer">
+                        <button id="create-exam" class="btn btn-primary">Save</button>
+                    </div>
+
+                </form>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

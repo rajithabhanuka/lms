@@ -12,47 +12,12 @@
 <body>
 
 
-<div sec:authorize="isAuthenticated()">
-    <div class="row">
-        <div class="col-md-10">
-            <h3 class="text-center text-muted">
-                Welcome to the Dashboard [[${#httpServletRequest.remoteUser}]]!
-            </h3>
-        </div>
-
-        <div class="col-md-2">
-            <h3>
-                <form role="form" th:action="@{/logout}" method="post">
-                    <button type="submit" class="btn btn-md btn-link">
-                        Sign Out
-                    </button>
-                </form>
-            </h3>
-        </div>
-    </div>
-</div>
+<div th:replace='Includes/header.html :: header'/>
 
 <div sec:authorize="hasAuthority('TEACHER')">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
-                <section class="content-header">
-                    <ol class="breadcrumb">
-                        <li class="active"><a th:href="@{/create}">
-                            <i class="fa fa-dashboard"></i>
-                            <span>Create User</span>
-                        </a></li>
-                        <li ><a th:href="@{/createexam}">
-                            <i class="fa fa-dashboard"></i>
-                            <span>Create Exam</span>
-                        </a></li>
-                        <li ><a th:href="@{/viewresults}">
-                            <i class="fa fa-dashboard"></i>
-                            <span>View Results</span>
-                        </a></li>
-                    </ol>
-                </section>
-            </div>
+            <div th:replace='Includes/teachermenu.html :: teachermenu'/>
         </div>
         <div class="row">
             <div class="col-md-2">
@@ -66,14 +31,14 @@
                         <label for="txt-email">
                             Email address
                         </label>
-                        <input type="text" class="form-control" id="txt-email" />
+                        <input type="email" class="form-control" id="txt-email"/>
                     </div>
 
                     <div class="form-group">
                         <label for="txt-name">
                             Name
                         </label>
-                        <input type="text" class="form-control" id="txt-name" />
+                        <input type="text" class="form-control" id="txt-name"/>
                     </div>
 
                     <div class="form-group">
@@ -91,14 +56,14 @@
                         <label for="txt-password-1">
                             Password
                         </label>
-                        <input type="password" class="form-control" id="txt-password-1" />
+                        <input type="password" class="form-control" id="txt-password-1"/>
                     </div>
 
                     <div class="form-group">
                         <label for="txt-password-2">
                             Confirm Password
                         </label>
-                        <input type="password" class="form-control" id="txt-password-2" />
+                        <input type="password" class="form-control" id="txt-password-2"/>
                     </div>
 
                     <div class="box-footer">
@@ -136,12 +101,19 @@
 
         var checkpasswords = comparePass(pass1, pass2);
 
-        if (!checkpasswords) {
-           alert("Passwords did't match!");
-           return;
+        var user_role;
+        if (role == '1') {
+            user_role = "TEACHER";
+        } else {
+            user_role = "STUDENT";
         }
 
-        var newUserCredentials = {'email': email, 'name': name, 'role': role,  'password': pass1};
+        if (!checkpasswords) {
+            alert("Passwords did't match!");
+            return;
+        }
+
+        var newUserCredentials = {'email': email, 'name': name, 'role': user_role, 'password': pass1};
 
         $.ajax({
             async: false,
@@ -153,9 +125,9 @@
             cache: false,
             success: function (ret) {
                 if (ret.status === 'SUCCESS') {
-                    alert("User created!");
+                    alert(ret.message);
                 } else {
-                    alert("Credentials not created!");
+                    alert(ret.message);
                 }
             },
             error: function (xhr, status, err) {
