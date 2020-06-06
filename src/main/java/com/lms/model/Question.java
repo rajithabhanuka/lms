@@ -5,6 +5,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * Created by Bhanuka
@@ -20,6 +22,7 @@ public class Question implements Serializable {
     private String examid;
     private String question;
     private Boolean status;
+    private List<QuestionChoices> questionChoices;
 
     public String getId() {
         return id;
@@ -52,4 +55,14 @@ public class Question implements Serializable {
     public void setStatus(Boolean status) {
         this.status = status;
     }
+
+
+    public List<QuestionChoices> getQuestionChoices() {
+        return questionChoices;
+    }
+
+    public void setQuestionChoices(List<QuestionChoices> questionChoices) {
+        this.questionChoices = questionChoices;
+    }
+
 }

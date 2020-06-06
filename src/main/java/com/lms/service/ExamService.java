@@ -2,7 +2,6 @@ package com.lms.service;
 
 import com.lms.dao.ExamRepositoryExtended;
 import com.lms.model.Exam;
-import com.lms.model.User;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ import java.util.List;
  * Created by Bhanuka
  * */
 
-public interface ExamService extends ExamRepositoryExtended {
+public interface ExamService {
 
     Exam save(Exam exam);
 

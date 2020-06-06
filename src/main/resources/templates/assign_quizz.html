@@ -153,12 +153,12 @@
                             </div>
                             <div class="col-md-1">
                                 <div class="radio">
-                                    <label><input type="radio" name="status" id="is-yes">Yes</label>
+                                    <label><input type="radio" name="status" id="is-yes" value="true">Yes</label>
                                 </div>
                             </div>
                             <div class="col-md-1">
                                 <div class="radio">
-                                    <label><input type="radio" name="status" id="is-no">No</label>
+                                    <label><input type="radio" name="status" id="is-no" , value="false">No</label>
                                 </div>
                             </div>
                             <div class="col-md-8"></div>
@@ -184,42 +184,85 @@
 </html>
 
 <script>
-    function comparedates(availabledate, duedate) {
-        if (availabledate > duedate) {
-            return false;
-        } else {
-            return true;
+    function get_status() {
+
+        var radios = document.getElementsByName('status');
+        for (var i = 0, length = radios.length; i < length; i++) {
+            if (radios[i].checked) {
+                return radios[i].value;
+            }
         }
     }
 
     $('#setup-exam').on('click', function () {
-        var selectedexam = $('#select-exam').val();
+        var examid = $('#select-exam').val();
         var question = $('#txt-question').val();
-        var availabledate = $('#txt-available').val();
-        var duedate = $('#txt-due').val();
-        var teacherId = $('#txt-user-id').val();
+        var answer1 = $('#txt-answer1').val();
+        var answer2 = $('#txt-answer2').val();
+        var answer3 = $('#txt-answer3').val();
+        var answer4 = $('#txt-answer4').val();
+        var answer5 = $('#txt-answer5').val();
+        var iscorrect1 = document.getElementById("is-answer1").checked;
+        var iscorrect2 = document.getElementById("is-answer2").checked;
+        var iscorrect3 = document.getElementById("is-answer3").checked;
+        var iscorrect4 = document.getElementById("is-answer4").checked;
+        var iscorrect5 = document.getElementById("is-answer5").checked;
+        var status = get_status();
 
-        var checkdates = comparedates(new Date(availabledate), new Date(duedate));
 
-
-        if (!checkdates) {
-            alert("Due date should be greater than available date !");
-            return;
+        var ChoiceOne = {
+            'id' : "1",
+            'examid': examid,
+            'questionid': 123,
+            'choce': answer1,
+            'iscorrect': iscorrect1
         }
 
-        var examDetails = {
-            'examname': exam_name,
-            'duration': duration,
-            'availableOn': availabledate,
-            'dueOn': duedate,
-            'teacherId': teacherId
+        var ChoiceOTwo = {
+            'id' : "2",
+            'examid': examid,
+            'questionid': 123,
+            'choce': answer2,
+            'iscorrect': iscorrect2
+        };
+
+        var ChoiceThree = {
+            'id' : "3",
+            'examid': examid,
+            'questionid': 123,
+            'choce': answer3,
+            'iscorrect': iscorrect3
+        }
+
+        var ChoiceFour = {
+            'id' : "4",
+            'examid': examid,
+            'questionid': 123,
+            'choce': answer4,
+            'iscorrect': iscorrect4
+        }
+
+        var ChoiceFive = {
+            'id' : "5",
+            'examid': examid,
+            'questionid': 123,
+            'choce': answer5,
+            'iscorrect': iscorrect5
+        }
+
+
+        var QuestionDetails = {
+            'examid': examid,
+            'question': question,
+            'status': status,
+            'questionChoices' : [ChoiceOne,ChoiceOTwo,ChoiceThree,ChoiceFour,ChoiceFive]
         };
 
         $.ajax({
             async: false,
             method: "POST",
             url: '/assign_quizz',
-            data: JSON.stringify(examDetails),
+            data: JSON.stringify(QuestionDetails),
             dataType: 'json',
             contentType: 'application/json',
             cache: false,
