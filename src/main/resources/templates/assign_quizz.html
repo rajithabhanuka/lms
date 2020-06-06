@@ -153,7 +153,7 @@
                             </div>
                             <div class="col-md-1">
                                 <div class="radio">
-                                    <label><input type="radio" name="status" id="is-yes" value="true">Yes</label>
+                                    <label><input type="radio" name="status" id="is-yes" value="true" checked>Yes</label>
                                 </div>
                             </div>
                             <div class="col-md-1">
@@ -209,9 +209,18 @@
         var iscorrect5 = document.getElementById("is-answer5").checked;
         var status = get_status();
 
+        if (question === '' || answer1 === '' || answer2 === '' || answer3 === '' || answer4 === '' || answer5 === '') {
+            alert("Required fields can not be null");
+            return;
+        }
+
+        if (!iscorrect1 && !iscorrect2 && !iscorrect3 && !iscorrect4 && !iscorrect5) {
+            alert("Please select a answer to continue");
+            return;
+        }
 
         var ChoiceOne = {
-            'id' : "1",
+            'id': "1",
             'examid': examid,
             'questionid': 123,
             'choce': answer1,
@@ -219,7 +228,7 @@
         }
 
         var ChoiceOTwo = {
-            'id' : "2",
+            'id': "2",
             'examid': examid,
             'questionid': 123,
             'choce': answer2,
@@ -227,7 +236,7 @@
         };
 
         var ChoiceThree = {
-            'id' : "3",
+            'id': "3",
             'examid': examid,
             'questionid': 123,
             'choce': answer3,
@@ -235,7 +244,7 @@
         }
 
         var ChoiceFour = {
-            'id' : "4",
+            'id': "4",
             'examid': examid,
             'questionid': 123,
             'choce': answer4,
@@ -243,7 +252,7 @@
         }
 
         var ChoiceFive = {
-            'id' : "5",
+            'id': "5",
             'examid': examid,
             'questionid': 123,
             'choce': answer5,
@@ -255,7 +264,7 @@
             'examid': examid,
             'question': question,
             'status': status,
-            'questionChoices' : [ChoiceOne,ChoiceOTwo,ChoiceThree,ChoiceFour,ChoiceFive]
+            'questionChoices': [ChoiceOne, ChoiceOTwo, ChoiceThree, ChoiceFour, ChoiceFive]
         };
 
         $.ajax({
