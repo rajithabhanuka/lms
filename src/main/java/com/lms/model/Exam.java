@@ -25,16 +25,6 @@ public class Exam implements Serializable {
     private String teacherId;
     private Date createdDate;
 
-    public Exam(String id, String examname, int duration, String availableOn, String dueOn, String teacherId, Date createdDate) {
-        this.id = id;
-        this.examname = examname;
-        this.duration = duration;
-        this.availableOn = availableOn;
-        this.dueOn = dueOn;
-        this.teacherId = teacherId;
-        this.createdDate = createdDate;
-    }
-
     public String getId() {
         return id;
     }

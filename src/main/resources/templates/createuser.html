@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:th="https://www.thymeleaf.org">
 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Create New User</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -31,14 +31,14 @@
                         <label for="txt-email">
                             Email address
                         </label>
-                        <input type="email" class="form-control" id="txt-email"/>
+                        <input class="form-control" id="txt-email" type="email"/>
                     </div>
 
                     <div class="form-group">
                         <label for="txt-name">
                             Name
                         </label>
-                        <input type="text" class="form-control" id="txt-name"/>
+                        <input class="form-control" id="txt-name" type="text"/>
                     </div>
 
                     <div class="form-group">
@@ -46,7 +46,7 @@
                             Select Role
                         </label>
                         <select class="form-control" id="role">
-                            <option value="" disabled selected>Choose your option</option>
+                            <option disabled selected value="">Choose your option</option>
                             <option value="1">TEACHER</option>
                             <option value="2">STUDENT</option>
                         </select>
@@ -56,18 +56,18 @@
                         <label for="txt-password-1">
                             Password
                         </label>
-                        <input type="password" class="form-control" id="txt-password-1"/>
+                        <input class="form-control" id="txt-password-1" type="password"/>
                     </div>
 
                     <div class="form-group">
                         <label for="txt-password-2">
                             Confirm Password
                         </label>
-                        <input type="password" class="form-control" id="txt-password-2"/>
+                        <input class="form-control" id="txt-password-2" type="password"/>
                     </div>
 
                     <div class="box-footer">
-                        <button id="create-user" class="btn btn-primary">Save</button>
+                        <button class="btn btn-primary" id="create-user">Save</button>
                     </div>
 
                 </form>
@@ -109,17 +109,22 @@
         }
 
         if (!checkpasswords) {
-            alert("Passwords did't match!");
+            alert("Passwords did't match !");
             return;
         }
 
-        var newUserCredentials = {'email': email, 'name': name, 'role': user_role, 'password': pass1};
+        var newUser = {
+            'email': email,
+            'name': name,
+            'role': user_role,
+            'password': pass1
+        };
 
         $.ajax({
             async: false,
             method: "POST",
             url: '/createuser',
-            data: JSON.stringify(newUserCredentials),
+            data: JSON.stringify(newUser),
             dataType: 'json',
             contentType: 'application/json',
             cache: false,

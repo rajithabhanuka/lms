@@ -21,10 +21,12 @@ import java.util.Date;
  * */
 
 @Controller
-public class CreateuserController {
+public class UserController {
 
-    private static final Logger LOGGER = LogManager.getLogger(CreateuserController.class);
+    private static final Logger LOGGER = LogManager.getLogger(UserController.class);
 
+    //TODO comments should be added
+    //TODO error handling should be added
 
     @Autowired
     private UserAccountService userAccountService;
@@ -37,6 +39,7 @@ public class CreateuserController {
     @ResponseBody
     @RequestMapping(value = "/createuser", method = RequestMethod.POST, consumes = "application/json")
     public String createuser(@RequestBody String userJson) {
+
         String response = "{}";
 
         try {
@@ -59,7 +62,7 @@ public class CreateuserController {
                 }
 
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
+            LOGGER.error(ex);
             return new CustomResponse(Constants.CREATE_ERROR, "FAIL").toJson();
         }
 

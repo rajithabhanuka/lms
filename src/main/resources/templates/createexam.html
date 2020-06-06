@@ -30,28 +30,28 @@
                         <label for="txt-exam-name">
                             Exam Name
                         </label>
-                        <input type="text" class="form-control" id="txt-exam-name" />
+                        <input type="text" class="form-control" id="txt-exam-name"/>
                     </div>
 
                     <div class="form-group">
                         <label for="txt-time">
                             Time Duration in Minutes
                         </label>
-                        <input type="text" class="form-control" id="txt-time" />
+                        <input type="text" class="form-control" id="txt-time"/>
                     </div>
 
                     <div class="form-group">
                         <label for="txt-available">
                             Available on
                         </label>
-                        <input type="date" class="form-control" id="txt-available" />
+                        <input type="date" class="form-control" id="txt-available"/>
                     </div>
 
                     <div class="form-group">
                         <label for="txt-due">
                             Due On
                         </label>
-                        <input type="date" class="form-control" id="txt-due" />
+                        <input type="date" class="form-control" id="txt-due"/>
                     </div>
 
                     <div class="box-footer">
@@ -66,5 +66,62 @@
     </div>
 </div>
 
+<script th:src="@{plugins/jQuery/jQuery-2.2.0.min.js}"></script>
+
 </body>
 </html>
+
+<script>
+    function comparedates(availabledate, duedate) {
+        if (availabledate > duedate) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    $('#create-exam').on('click', function () {
+        var exam_name = $('#txt-exam-name').val();
+        var duration = $('#txt-time').val();
+        var availabledate = $('#txt-available').val();
+        var duedate = $('#txt-due').val();
+        var teacherId = 1;
+
+        var checkdates = comparedates(new Date(availabledate), new Date(duedate));
+
+
+        if (!checkdates) {
+            alert("Due date should be greater than available date !");
+            return;
+        }
+
+        var examDetails = {
+            'examname': exam_name,
+            'duration': duration,
+            'availableOn': availabledate,
+            'dueOn': duedate,
+            'teacherId': teacherId
+        };
+
+        $.ajax({
+            async: false,
+            method: "POST",
+            url: '/create_exam',
+            data: JSON.stringify(examDetails),
+            dataType: 'json',
+            contentType: 'application/json',
+            cache: false,
+            success: function (ret) {
+                if (ret.status === 'SUCCESS') {
+                    alert(ret.message);
+                } else {
+                    alert(ret.message);
+                }
+            },
+            error: function (xhr, status, err) {
+                alert("Server cannot be reached!");
+            }
+        });
+    });
+
+</script>
