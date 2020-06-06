@@ -5,6 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.Serializable;
 
+/*
+ * Created by Bhanuka
+ * */
+
 public class CustomResponse implements Serializable {
 
     private String message;

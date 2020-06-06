@@ -1,5 +1,9 @@
 package com.lms.model;
 
+/*
+ * Created by Bhanuka
+ * */
+
 public enum Role {
 
     STUDENT("STUDENT"), TEACHER("TEACHER");

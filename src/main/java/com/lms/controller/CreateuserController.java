@@ -1,8 +1,8 @@
 package com.lms.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lms.constant.Constants;
 import com.lms.model.CustomResponse;
-import com.lms.model.Role;
 import com.lms.model.User;
 import com.lms.service.UserAccountService;
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 
+/*
+ * Created by Bhanuka
+ * */
+
 @Controller
 public class CreateuserController {
 
@@ -24,11 +28,6 @@ public class CreateuserController {
 
     @Autowired
     private UserAccountService userAccountService;
-
-    private static final String SUCCESS = "Successfully created!";
-    private static final String FAIL = "Failed to create!";
-    private static final String MISSING_DATA = "Failed to create! Required data not available.";
-    private static final String CREATE_ERROR = "Error occurred when saving Credential!";
 
     @RequestMapping(value = "/createuser", method = RequestMethod.GET)
     public String create() {
@@ -51,17 +50,17 @@ public class CreateuserController {
                     User created = userAccountService.save(user);
 
                     if (created != null) {
-                        response = new CustomResponse(SUCCESS, "SUCCESS").toJson();
+                        response = new CustomResponse(Constants.SUCCESS, "SUCCESS").toJson();
                     } else {
-                        response = new CustomResponse(FAIL, "FAIL").toJson();
+                        response = new CustomResponse(Constants.FAIL, "FAIL").toJson();
                     }
                 }else {
-                    response = new CustomResponse(MISSING_DATA, "FAIL").toJson();
+                    response = new CustomResponse(Constants.MISSING_DATA, "FAIL").toJson();
                 }
 
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
-            return new CustomResponse(CREATE_ERROR, "FAIL").toJson();
+            return new CustomResponse(Constants.CREATE_ERROR, "FAIL").toJson();
         }
 
         return response;

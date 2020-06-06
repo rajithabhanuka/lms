@@ -1,13 +1,22 @@
 package com.lms.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
+
+/*
+ * Created by Bhanuka
+ * */
+
 @Document
-public class User {
+public class User implements Serializable {
 
     @Id
     private String id;
+
+    @Indexed(name = "email_idx", unique = true, background = true)
     private String email;
     private String name;
     private String password;

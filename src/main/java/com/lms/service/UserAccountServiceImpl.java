@@ -1,9 +1,7 @@
 package com.lms.service;
 
 import com.lms.model.User;
-import com.lms.model.Role;
 import com.lms.dao.UserRepository;
-import com.lms.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,6 +14,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+/*
+ * Created by Bhanuka
+ * */
 
 @Service
 public class UserAccountServiceImpl implements UserAccountService {
