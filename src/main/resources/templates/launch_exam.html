@@ -25,39 +25,39 @@
                 <h3 class="text-center">
                     Launch Exams
                 </h3>
-                    <div class="form-group">
-                        <label for="txt-exam">
-                            Exam Description
-                        </label>
-                        <input type="text" class="form-control" th:value="${exam.getExamname()}" id="txt-exam"
-                               disabled/>
-                    </div>
+                <div class="form-group">
+                    <label for="txt-exam">
+                        Exam Description
+                    </label>
+                    <input type="text" class="form-control" th:value="${exam.getExamname()}" id="txt-exam"
+                           disabled/>
+                </div>
 
-                    <div class="form-group">
-                        <label for="txt-exam">
-                            Exam Duration
-                        </label>
-                        <input type="text" class="form-control" th:value="${exam.getDuration()}" id="txt-time"
-                               disabled/>
-                    </div>
+                <div class="form-group">
+                    <label for="txt-exam">
+                        Exam Duration
+                    </label>
+                    <input type="text" class="form-control" th:value="${exam.getDuration()}" id="txt-time"
+                           disabled/>
+                </div>
 
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-10">
-                                <button id="back-quiz" class="btn btn-primary pull-left">Back <<</button>
-                                <button id="next-quiz" class="btn btn-primary pull-right">Next >></button>
-                            </div>
-                            <div class="col-md-1"></div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <button id="back-quiz" class="btn btn-primary pull-left">Back <<</button>
+                            <button id="next-quiz" class="btn btn-primary pull-right">Next >></button>
                         </div>
+                        <div class="col-md-1"></div>
                     </div>
+                </div>
 
-                    <div id="mid-pane"></div>
+                <div id="mid-pane"></div>
 
 
-                    <div class="box-footer">
-                        <button id="finish-exam" class="btn btn-primary pull-right">Finish the Exam</button>
-                    </div>
+                <div class="box-footer">
+                    <button id="finish-exam" class="btn btn-primary pull-right">Finish the Exam</button>
+                </div>
             </div>
             <div class="col-md-2">
             </div>
@@ -73,33 +73,60 @@
 
 <script>
 
-    $('#next-quiz').click(function(){
+    $('#next-quiz').click(function () {
         $('#back-quiz').show();
         $('#next-quiz').html('Next >>');
+        var answer = get_choice();
+        var question_id = 0;
+        if (document.getElementById('question-id') === null) {
+            var question_id = 0;
+        } else {
+            var question_id = document.getElementById('question-id').value;
+        }
+
         $.ajax({
-            url: "/launch_exam_progress?add=1",
-            success: function(result){
+            url: "/launch_exam_progress?add=1&questionid=" + question_id + "&answer=" + answer,
+            success: function (result) {
                 $("#mid-pane").html(result);
-            }});
+            }
+        });
         $('#finish-exam').show();
     });
 
-    $('#back-quiz').click(function(){
+    $('#back-quiz').click(function () {
         $('#back-quiz').show();
+        var answer = get_choice();
+        var question_id = 0;
+        if (document.getElementById('question-id') === null) {
+            var question_id = 0;
+        } else {
+            var question_id = document.getElementById('question-id').value;
+        }
+
         $.ajax({
-            url: "/launch_exam_progress?deduct=1",
-            success: function(result){
+            url: "/launch_exam_progress?deduct=1&questionid=" + question_id + "&answer=" + answer,
+            success: function (result) {
                 $("#mid-pane").html(result);
-            }});
+            }
+        });
     });
 
-    $(document).ready(function(){
-
+    $(document).ready(function () {
         $('#back-quiz').hide();
         $('#finish-exam').hide();
         $('#next-quiz').html('Start');
 
     });
+
+    function get_choice() {
+
+        var radios = document.getElementsByName('choice');
+        for (var i = 0, length = radios.length; i < length; i++) {
+            if (radios[i].checked) {
+                return radios[i].value;
+            }
+        }
+    }
 
 
 </script>

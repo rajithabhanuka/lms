@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
  * Created by Bhanuka
@@ -97,10 +99,22 @@ public class ExamController {
         try {
 
             int currentQuestionID = 0;
+            Map<String, String> answermap = null;
+            if (request.getSession().getAttribute("answermap") == null) {
+                answermap = new HashMap<>();
+            } else {
+                answermap = (Map<String, String>) request.getSession().getAttribute("answermap");
+            }
 
             List<Question> questions = (List<Question>) request.getSession().getAttribute("questions");
 
             Object object = request.getSession().getAttribute("currentQuestionID");
+            String questionid = (String) request.getParameter("questionid");
+            String answer = (String) request.getParameter("answer");
+
+            if (!questionid.equals("0") && !answer.equals("undefined")) {
+                answermap.put(questionid, answer);
+            }
 
             if (object == null) {
                 currentQuestionID = 0;
@@ -120,8 +134,11 @@ public class ExamController {
             }
 
             request.getSession().setAttribute("currentQuestionID", currentQuestionID);
+            request.getSession().setAttribute("question_id", questions.get(currentQuestionID).getId());
+            request.getSession().setAttribute("answermap", answermap);
             model.addAttribute("currentQuestionID", currentQuestionID);
             model.addAttribute("question", questions.get(currentQuestionID));
+            model.addAttribute("answermap", answermap);
 
         } catch (Exception ex) {
             LOGGER.error(ex);

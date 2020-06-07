@@ -6,8 +6,29 @@
         <label for="txt-question">
             Question <span th:text="${currentQuestionID +1}"></span>
         </label>
+        <input type="hidden" th:value="${question.getId()}" id="question-id">
+        <input type="hidden" th:value="${answermap.get(question.getId())}" id="selected-answer">
         <input type="text" th:value="${question.getQuestion()}" class="form-control" id="txt-question" disabled/>
     </div>
+
+    <script>
+
+        var selected_answer = document.getElementById('selected-answer').value;
+
+        if (selected_answer === 1) {
+            document.getElementById('is-answer1').checked = true;
+        } else if (selected_answer === 2) {
+            document.getElementById('is-answer2').checked = true;
+        } else if (selected_answer === 3) {
+            document.getElementById('is-answer3').checked = true;
+        } else if (selected_answer === 4) {
+            document.getElementById('is-answer4').checked = true;
+        } else if (selected_answer === 5) {
+            document.getElementById('is-answer5').checked = true;
+        }
+        alert(selected_answer);
+
+    </script>
     <div class="form-group">
         <label for="txt-question">
             Select the suitable answer
@@ -27,7 +48,7 @@
             </div>
             <div class="col-md-2">
                 <div class="radio">
-                    <label><input type="radio" name="choice" id="is-answer1">Is Correct</label>
+                    <label><input type="radio" name="choice" th:value="${1}" id="is-answer1">Is Correct</label>
                 </div>
             </div>
         </div>
@@ -46,7 +67,7 @@
             </div>
             <div class="col-md-2">
                 <div class="radio">
-                    <label><input type="radio" name="choice" id="is-answer2">Is Correct</label>
+                    <label><input type="radio" name="choice" th:value="${2}" id="is-answer2">Is Correct</label>
                 </div>
             </div>
         </div>
@@ -65,7 +86,7 @@
             </div>
             <div class="col-md-2">
                 <div class="radio">
-                    <label><input type="radio" name="choice" id="is-answer3">Is Correct</label>
+                    <label><input type="radio" name="choice" th:value="${3}" id="is-answer3">Is Correct</label>
                 </div>
             </div>
         </div>
@@ -84,7 +105,7 @@
             </div>
             <div class="col-md-2">
                 <div class="radio">
-                    <label><input type="radio" name="choice" id="is-answer4">Is Correct</label>
+                    <label><input type="radio" name="choice" th:value="${4}" id="is-answer4">Is Correct</label>
                 </div>
             </div>
         </div>
@@ -103,7 +124,7 @@
             </div>
             <div class="col-md-2">
                 <div class="radio">
-                    <label><input type="radio" name="choice" id="is-answer5">Is Correct</label>
+                    <label><input type="radio" name="choice" th:value="${5}" id="is-answer5">Is Correct</label>
                 </div>
             </div>
         </div>
