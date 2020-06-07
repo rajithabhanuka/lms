@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:th="https://www.thymeleaf.org">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+
+<div th:replace='Includes/header.html :: header'/>
+
+<div sec:authorize="hasAuthority('TEACHER') || hasAuthority('STUDENT')">
+    <div class="container-fluid">
+        <div class="row" sec:authorize="hasAuthority('TEACHER')">
+            <div th:replace='Includes/teachermenu.html :: teachermenu'/>
+        </div>
+        <div class="row" sec:authorize="hasAuthority('STUDENT')">
+            <div th:replace='Includes/studentmenu.html :: studentmenu'/>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <h3 class="text-center">
+                    My Profile
+                </h3>
+                <form role="form">
+                    <div class="form-group">
+                        <label for="txt-email">
+                            Email address
+                        </label>
+                        <input class="form-control" id="txt-email" type="email" th:value="${user.getEmail()}" disabled/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txt-name">
+                            Name
+                        </label>
+                        <input class="form-control" id="txt-name" type="text" th:value="${user.getName()}"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txt-password-0">
+                            Current Password
+                        </label>
+                        <input class="form-control" id="txt-password-0" type="password"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txt-password-1">
+                            New Password
+                        </label>
+                        <input class="form-control" id="txt-password-1" type="password"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txt-password-2">
+                            Confirm New Password
+                        </label>
+                        <input class="form-control" id="txt-password-2" type="password"/>
+                    </div>
+
+                    <div class="box-footer">
+                        <button class="btn btn-primary" id="create-user">Save</button>
+                    </div>
+
+                </form>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <h3 class="text-center">
+                    My Exams
+                </h3>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Exam Name</th>
+                        <th scope="col">Duration</th>
+                        <th scope="col">Available Date</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col">View</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${exams.size()==0}">
+                        <td colspan="2"> No Exams Available</td>
+                    </tr>
+                    <tr th:each="exam, examCount : ${exams}">
+                        <th scope="row"><span th:text="${examCount.count}"></span></th>
+                        <td><span th:text="${exam.getExamname()}"></span></td>
+                        <td><span th:text="${exam.getDuration()}"></span></td>
+                        <td><span th:text="${exam.getAvailableOn()}"></span></td>
+                        <td><span th:text="${exam.getDueOn()}"></span></td>
+                        <td>
+                            <button class="btn btn-primary" type="submit">View</button>
+                            </span></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
+
+<script th:src="@{plugins/jQuery/jQuery-2.2.0.min.js}"></script>
+
+<script>
+    function comparePass(pass, confPass) {
+        if (pass.localeCompare(confPass) === 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    $('#create-user').on('click', function () {
+        var email = $('#txt-email').val();
+        var name = $('#txt-name').val();
+        var role = $('#role').val();
+        var pass1 = $('#txt-password-1').val();
+        var pass2 = $('#txt-password-2').val();
+
+        var checkpasswords = comparePass(pass1, pass2);
+
+        var user_role;
+        if (role == '1') {
+            user_role = "TEACHER";
+        } else {
+            user_role = "STUDENT";
+        }
+
+        if (!checkpasswords) {
+            alert("Passwords did't match !");
+            return;
+        }
+
+        var newUser = {
+            'email': email,
+            'name': name,
+            'role': user_role,
+            'password': pass1
+        };
+
+        $.ajax({
+            async: false,
+            method: "POST",
+            url: '/create_user',
+            data: JSON.stringify(newUser),
+            dataType: 'json',
+            contentType: 'application/json',
+            cache: false,
+            success: function (ret) {
+                if (ret.status === 'SUCCESS') {
+                    alert(ret.message);
+                } else {
+                    alert(ret.message);
+                }
+            },
+            error: function (xhr, status, err) {
+                alert("Server cannot be reached!");
+            }
+        });
+    });
+
+</script>

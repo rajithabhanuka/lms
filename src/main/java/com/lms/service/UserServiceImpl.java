@@ -4,29 +4,20 @@ import com.lms.model.Role;
 import com.lms.model.User;
 import com.lms.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /*
  * Created by Bhanuka
  * */
 
 @Service
-public class UserAccountServiceImpl implements UserAccountService {
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -69,5 +60,10 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public List<User> getUserByRole(Role role) {
         return userRepository.getUserByRole(role);
+    }
+
+    @Override
+    public User findById(String id) {
+        return userRepository.userById(id);
     }
 }

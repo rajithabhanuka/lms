@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface UserRepositoryExtended {
 
+    User userById(String id);
+
     List<User> getUserByRole(Role role);
 }

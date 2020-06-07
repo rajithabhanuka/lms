@@ -18,4 +18,7 @@ public interface ExamService {
     void delete(Exam exam);
 
     List<Exam> getExamByTeacher(String teacherId);
+
+    List<Exam> getAssignExamByStudentID(String studentId);
+
 }

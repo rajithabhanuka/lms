@@ -5,7 +5,7 @@ import com.lms.constant.Constants;
 import com.lms.model.*;
 import com.lms.service.ExamService;
 import com.lms.service.StudentExamsService;
-import com.lms.service.UserAccountService;
+import com.lms.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class StudentExamsController {
     private ExamService examService;
 
     @Autowired
-    private UserAccountService userAccountService;
+    private UserService userService;
 
     @Autowired
     private StudentExamsService studentExamsService;
@@ -43,7 +43,7 @@ public class StudentExamsController {
     @RequestMapping(value = "/assign_exams_to_students", method = RequestMethod.GET)
     public String assign_exams_to_students_view(HttpServletRequest request, Model model) {
 
-        List<User> users = userAccountService.getUserByRole(Role.STUDENT);
+        List<User> users = userService.getUserByRole(Role.STUDENT);
         List<Exam> exams = examService.getExamByTeacher((String) request.getSession().getAttribute("USER_ID"));
         model.addAttribute("users", users);
         model.addAttribute("exams", exams);

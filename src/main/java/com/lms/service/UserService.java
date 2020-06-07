@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Bhanuka
  * */
 
-public interface UserAccountService extends UserDetailsService {
+public interface UserService extends UserDetailsService {
 
     User save(User user);
 
@@ -19,4 +19,6 @@ public interface UserAccountService extends UserDetailsService {
     void delete(User user);
 
     List<User> getUserByRole(Role role);
+
+    User findById(String id);
 }

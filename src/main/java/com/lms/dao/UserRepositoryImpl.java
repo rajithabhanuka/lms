@@ -1,6 +1,5 @@
 package com.lms.dao;
 
-import com.lms.model.Exam;
 import com.lms.model.Role;
 import com.lms.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +20,10 @@ public class UserRepositoryImpl implements UserRepositoryExtended{
         Criteria criteria = new Criteria("role").is(role);
         query.addCriteria(criteria);
         return mongoTemplate.find(query, User.class);
+    }
+
+    @Override
+    public User userById(String id) {
+        return mongoTemplate.findById(id, User.class);
     }
 }

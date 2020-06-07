@@ -11,4 +11,6 @@ import java.util.List;
 public interface ExamRepositoryExtended {
 
     List<Exam> getExamByTeacher(String teacherId);
+
+    List<Exam> getAssignExamByStudentID(String studentId);
 }
