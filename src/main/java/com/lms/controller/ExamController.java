@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,7 +33,7 @@ public class ExamController {
     //TODO error handling should be added
 
     @RequestMapping(value = "/create_exam", method = RequestMethod.GET)
-    public String create_exam_view() {
+    public String create_exam_view(HttpServletRequest request, Model model) {
         return "create_exam";
     }
 
@@ -68,6 +69,11 @@ public class ExamController {
         }
 
         return response;
+    }
+
+    @RequestMapping(value = "/launch_exam", method = RequestMethod.GET)
+    public String launch_exam_view(HttpServletRequest request, Model model) {
+        return "launch_exam";
     }
 
 }

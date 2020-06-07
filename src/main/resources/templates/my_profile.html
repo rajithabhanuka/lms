@@ -17,10 +17,10 @@
 <div sec:authorize="hasAuthority('TEACHER') || hasAuthority('STUDENT')">
     <div class="container-fluid">
         <div class="row" sec:authorize="hasAuthority('TEACHER')">
-            <div th:replace='Includes/teachermenu.html :: teachermenu'/>
+            <div th:replace='Includes/teacher_menu.html :: teachermenu'/>
         </div>
         <div class="row" sec:authorize="hasAuthority('STUDENT')">
-            <div th:replace='Includes/studentmenu.html :: studentmenu'/>
+            <div th:replace="Includes/student_menu.html :: studentmenu"/>
         </div>
         <div class="row">
             <div class="col-md-2">
@@ -83,7 +83,9 @@
                     My Exams
                 </h3>
 
-                <table class="table">
+                <span th:if="${exams.size()==0}">No Exams Available</span>
+
+                <table th:if="${exams.size() > 0}" class="table">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -95,17 +97,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:if="${exams.size()==0}">
-                        <td colspan="2"> No Exams Available</td>
-                    </tr>
                     <tr th:each="exam, examCount : ${exams}">
                         <th scope="row"><span th:text="${examCount.count}"></span></th>
                         <td><span th:text="${exam.getExamname()}"></span></td>
                         <td><span th:text="${exam.getDuration()}"></span></td>
                         <td><span th:text="${exam.getAvailableOn()}"></span></td>
                         <td><span th:text="${exam.getDueOn()}"></span></td>
-                        <td>
-                            <button class="btn btn-primary" type="submit">View</button>
+                        <td sec:authorize="hasAuthority('TEACHER')">
+                            <a class="btn btn-primary" th:href="@{/view_exam}" th:value="${exam.getId()}">View</a>
+                            </span></td>
+                        <td sec:authorize="hasAuthority('STUDENT')">
+                            <a class="btn btn-primary" th:href="@{/launch_exam}" th:value="${exam.getId()}">Launch
+                                Exam</a>
                             </span></td>
                     </tr>
                     </tbody>
@@ -166,15 +169,11 @@
             method: "POST",
             url: '/create_user',
             data: JSON.stringify(newUser),
-            dataType: 'json',
+            dataType: 'text',
             contentType: 'application/json',
             cache: false,
-            success: function (ret) {
-                if (ret.status === 'SUCCESS') {
-                    alert(ret.message);
-                } else {
-                    alert(ret.message);
-                }
+            success: function (data) {
+
             },
             error: function (xhr, status, err) {
                 alert("Server cannot be reached!");
