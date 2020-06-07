@@ -104,12 +104,19 @@
                         <td><span th:text="${exam.getAvailableOn()}"></span></td>
                         <td><span th:text="${exam.getDueOn()}"></span></td>
                         <td sec:authorize="hasAuthority('TEACHER')">
-                            <a class="btn btn-primary" th:href="@{/view_exam}" th:value="${exam.getId()}">View</a>
-                            </span></td>
+                            <form th:action="@{/view_exam}" method="post">
+                                <input type="hidden" name="selected_exam_id" th:value="${exam.getId()}"/>
+                                <button type="submit" class="btn btn-primary">
+                                    View
+                                </button>
+                            </form>
                         <td sec:authorize="hasAuthority('STUDENT')">
-                            <a class="btn btn-primary" th:href="@{/launch_exam}" th:value="${exam.getId()}">Launch
-                                Exam</a>
-                            </span></td>
+                            <form th:action="@{/launch_exam}" method="post">
+                                <input type="hidden" name="selected_exam_id" th:value="${exam.getId()}"/>
+                                <button type="submit" class="btn btn-primary">
+                                    Launch Exam
+                                </button>
+                            </form>
                     </tr>
                     </tbody>
                 </table>

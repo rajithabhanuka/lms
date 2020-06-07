@@ -42,4 +42,9 @@ public class ExamRepositoryImpl implements ExamRepositoryExtended {
 
         return exams;
     }
+
+    @Override
+    public Exam findExamById(String id) {
+        return mongoTemplate.findById(id, Exam.class);
+    }
 }

@@ -1,0 +1,111 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<div sec:authorize="hasAuthority('STUDENT')">
+    <div class="form-group">
+        <label for="txt-question">
+            Question <span th:text="${currentQuestionID +1}"></span>
+        </label>
+        <input type="text" th:value="${question.getQuestion()}" class="form-control" id="txt-question" disabled/>
+    </div>
+    <div class="form-group">
+        <label for="txt-question">
+            Select the suitable answer
+        </label>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="txt-answer1">
+                    Answer 1
+                </label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" th:value="${question.getQuestionChoices().get(0).getChoice()}" class="form-control"
+                       id="txt-answer1" disabled/>
+            </div>
+            <div class="col-md-2">
+                <div class="radio">
+                    <label><input type="radio" name="choice" id="is-answer1">Is Correct</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="txt-answer2">
+                    Answer 2
+                </label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" th:value="${question.getQuestionChoices().get(1).getChoice()}" class="form-control"
+                       id="txt-answer2" disabled/>
+            </div>
+            <div class="col-md-2">
+                <div class="radio">
+                    <label><input type="radio" name="choice" id="is-answer2">Is Correct</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="txt-answer3">
+                    Answer 3
+                </label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" th:value="${question.getQuestionChoices().get(2).getChoice()}" class="form-control"
+                       id="txt-answer3" disabled/>
+            </div>
+            <div class="col-md-2">
+                <div class="radio">
+                    <label><input type="radio" name="choice" id="is-answer3">Is Correct</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="txt-answer4">
+                    Answer 4
+                </label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" th:value="${question.getQuestionChoices().get(3).getChoice()}" class="form-control"
+                       id="txt-answer4" disabled/>
+            </div>
+            <div class="col-md-2">
+                <div class="radio">
+                    <label><input type="radio" name="choice" id="is-answer4">Is Correct</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="txt-answer5">
+                    Answer 5
+                </label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" th:value="${question.getQuestionChoices().get(4).getChoice()}" class="form-control"
+                       id="txt-answer5" disabled/>
+            </div>
+            <div class="col-md-2">
+                <div class="radio">
+                    <label><input type="radio" name="choice" id="is-answer5">Is Correct</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

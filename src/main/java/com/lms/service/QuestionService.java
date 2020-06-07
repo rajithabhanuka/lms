@@ -14,5 +14,7 @@ public interface QuestionService {
 
     List<Question> getQuestionByTeacher(String teacherId);
 
-    List<Question> getQuestionByStudent(String teacherId);
+    List<Question> getQuestionByStudent(String studentId);
+
+    List<Question> findQuestionByExamId(String examId);
 }

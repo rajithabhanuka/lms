@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lms.constant.Constants;
 import com.lms.model.*;
 import com.lms.service.ExamService;
+import com.lms.service.QuestionService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 
 /*
  * Created by Bhanuka
@@ -28,6 +30,9 @@ public class ExamController {
 
     @Autowired
     private ExamService examService;
+
+    @Autowired
+    private QuestionService questionService;
 
     //TODO comments should be added
     //TODO error handling should be added
@@ -71,9 +76,58 @@ public class ExamController {
         return response;
     }
 
-    @RequestMapping(value = "/launch_exam", method = RequestMethod.GET)
+    @RequestMapping(value = "/launch_exam", method = RequestMethod.POST)
     public String launch_exam_view(HttpServletRequest request, Model model) {
+        try {
+            String selected_exam_id = request.getParameter("selected_exam_id");
+            Exam exam = examService.findById(selected_exam_id);
+            List<Question> questions = questionService.findQuestionByExamId(exam.getId());
+            model.addAttribute("exam", exam);
+            model.addAttribute("questions", questions);
+            request.getSession().setAttribute("questions", questions);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
         return "launch_exam";
     }
+
+
+    @RequestMapping(value = "/launch_exam_progress", method = RequestMethod.GET)
+    public String launch_exam_progress(HttpServletRequest request, Model model) {
+        try {
+
+            int currentQuestionID = 0;
+
+            List<Question> questions = (List<Question>) request.getSession().getAttribute("questions");
+
+            Object object = request.getSession().getAttribute("currentQuestionID");
+
+            if (object == null) {
+                currentQuestionID = 0;
+            } else {
+                currentQuestionID = (Integer) request.getSession().getAttribute("currentQuestionID");
+            }
+
+            String add = request.getParameter("add");
+            String deduct = request.getParameter("deduct");
+
+            if (add != null && object != null && add.equals("1") && currentQuestionID < questions.size() - 1) {
+                currentQuestionID += 1;
+            }
+
+            if (deduct != null && object != null && deduct.equals("1") && currentQuestionID > 0) {
+                currentQuestionID -= 1;
+            }
+
+            request.getSession().setAttribute("currentQuestionID", currentQuestionID);
+            model.addAttribute("currentQuestionID", currentQuestionID);
+            model.addAttribute("question", questions.get(currentQuestionID));
+
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+        return "launch_exam_progress";
+    }
+
 
 }

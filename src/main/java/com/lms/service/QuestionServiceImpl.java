@@ -38,7 +38,12 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
-    public List<Question> getQuestionByStudent(String teacherId) {
+    public List<Question> getQuestionByStudent(String studentId) {
         return null;
+    }
+
+    @Override
+    public List<Question> findQuestionByExamId(String examId) {
+        return questionRepository.findQuestionByExamId(examId);
     }
 }

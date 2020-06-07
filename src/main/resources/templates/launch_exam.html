@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Assign Quiz to Exam</title>
+    <title>Launch Exam</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 <body>
@@ -25,140 +25,39 @@
                 <h3 class="text-center">
                     Launch Exams
                 </h3>
-
-                <form role="form">
-
                     <div class="form-group">
-                        <label for="txt-question">
-                            Question
+                        <label for="txt-exam">
+                            Exam Description
                         </label>
-                        <input type="text" class="form-control" id="txt-question"/>
+                        <input type="text" class="form-control" th:value="${exam.getExamname()}" id="txt-exam"
+                               disabled/>
                     </div>
 
                     <div class="form-group">
-                        <label for="txt-question">
-                            Set Your Answers here and select the correct option
+                        <label for="txt-exam">
+                            Exam Duration
                         </label>
+                        <input type="text" class="form-control" th:value="${exam.getDuration()}" id="txt-time"
+                               disabled/>
                     </div>
 
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-md-2">
-                                <label for="txt-answer1">
-                                    Answer 1
-                                </label>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <button id="back-quiz" class="btn btn-primary pull-left">Back <<</button>
+                                <button id="next-quiz" class="btn btn-primary pull-right">Next >></button>
                             </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" id="txt-answer1"/>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="radio">
-                                    <label><input type="radio" name="choice" id="is-answer1">Is Correct</label>
-                                </div>
-                            </div>
+                            <div class="col-md-1"></div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label for="txt-answer2">
-                                    Answer 2
-                                </label>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" id="txt-answer2"/>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="radio">
-                                    <label><input type="radio" name="choice" id="is-answer2">Is Correct</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label for="txt-answer3">
-                                    Answer 3
-                                </label>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" id="txt-answer3"/>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="radio">
-                                    <label><input type="radio" name="choice" id="is-answer3">Is Correct</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label for="txt-answer4">
-                                    Answer 4
-                                </label>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" id="txt-answer4"/>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="radio">
-                                    <label><input type="radio" name="choice" id="is-answer4">Is Correct</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label for="txt-answer5">
-                                    Answer 5
-                                </label>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" id="txt-answer5"/>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="radio">
-                                    <label><input type="radio" name="choice" id="is-answer5">Is Correct</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label for="is-yes" style="margin-top: 10px;">
-                                    Is Active
-                                </label>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="radio">
-                                    <label><input type="radio" name="status" id="is-yes" value="true"
-                                                  checked>Yes</label>
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="radio">
-                                    <label><input type="radio" name="status" id="is-no" , value="false">No</label>
-                                </div>
-                            </div>
-                            <div class="col-md-8"></div>
-                        </div>
-                    </div>
+                    <div id="mid-pane"></div>
 
 
                     <div class="box-footer">
-                        <button id="setup-exam" class="btn btn-primary pull-right">Save</button>
+                        <button id="finish-exam" class="btn btn-primary pull-right">Finish the Exam</button>
                     </div>
-
-                </form>
             </div>
             <div class="col-md-2">
             </div>
@@ -167,115 +66,40 @@
 </div>
 
 <script th:src="@{plugins/jQuery/jQuery-2.2.0.min.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </body>
 </html>
 
 <script>
-    function get_status() {
 
-        var radios = document.getElementsByName('status');
-        for (var i = 0, length = radios.length; i < length; i++) {
-            if (radios[i].checked) {
-                return radios[i].value;
-            }
-        }
-    }
-
-    $('#setup-exam').on('click', function () {
-        var examid = $('#select-exam').val();
-        var question = $('#txt-question').val();
-        var answer1 = $('#txt-answer1').val();
-        var answer2 = $('#txt-answer2').val();
-        var answer3 = $('#txt-answer3').val();
-        var answer4 = $('#txt-answer4').val();
-        var answer5 = $('#txt-answer5').val();
-        var iscorrect1 = document.getElementById("is-answer1").checked;
-        var iscorrect2 = document.getElementById("is-answer2").checked;
-        var iscorrect3 = document.getElementById("is-answer3").checked;
-        var iscorrect4 = document.getElementById("is-answer4").checked;
-        var iscorrect5 = document.getElementById("is-answer5").checked;
-        var status = get_status();
-        var quiztionId = Math.random().toString().slice(2, 11);
-
-        if (question === '' || answer1 === '' || answer2 === '' || answer3 === '' || answer4 === '' || answer5 === '') {
-            alert("Required fields can not be null");
-            return;
-        }
-
-        if (!iscorrect1 && !iscorrect2 && !iscorrect3 && !iscorrect4 && !iscorrect5) {
-            alert("Please select a answer to continue");
-            return;
-        }
-
-        var ChoiceOne = {
-            'id': "1",
-            'examid': examid,
-            'questionid': quiztionId,
-            'choce': answer1,
-            'iscorrect': iscorrect1
-        }
-
-        var ChoiceOTwo = {
-            'id': "2",
-            'examid': examid,
-            'questionid': quiztionId,
-            'choce': answer2,
-            'iscorrect': iscorrect2
-        };
-
-        var ChoiceThree = {
-            'id': "3",
-            'examid': examid,
-            'questionid': quiztionId,
-            'choce': answer3,
-            'iscorrect': iscorrect3
-        }
-
-        var ChoiceFour = {
-            'id': "4",
-            'examid': examid,
-            'questionid': quiztionId,
-            'choce': answer4,
-            'iscorrect': iscorrect4
-        }
-
-        var ChoiceFive = {
-            'id': "5",
-            'examid': examid,
-            'questionid': quiztionId,
-            'choce': answer5,
-            'iscorrect': iscorrect5
-        }
-
-
-        var QuestionDetails = {
-            'id': quiztionId,
-            'examid': examid,
-            'question': question,
-            'status': status,
-            'questionChoices': [ChoiceOne, ChoiceOTwo, ChoiceThree, ChoiceFour, ChoiceFive]
-        };
-
+    $('#next-quiz').click(function(){
+        $('#back-quiz').show();
+        $('#next-quiz').html('Next >>');
         $.ajax({
-            async: false,
-            method: "POST",
-            url: '/assign_quizz',
-            data: JSON.stringify(QuestionDetails),
-            dataType: 'json',
-            contentType: 'application/json',
-            cache: false,
-            success: function (ret) {
-                if (ret.status === 'SUCCESS') {
-                    alert(ret.message);
-                } else {
-                    alert(ret.message);
-                }
-            },
-            error: function (xhr, status, err) {
-                alert("Server cannot be reached!");
-            }
-        });
+            url: "/launch_exam_progress?add=1",
+            success: function(result){
+                $("#mid-pane").html(result);
+            }});
+        $('#finish-exam').show();
     });
+
+    $('#back-quiz').click(function(){
+        $('#back-quiz').show();
+        $.ajax({
+            url: "/launch_exam_progress?deduct=1",
+            success: function(result){
+                $("#mid-pane").html(result);
+            }});
+    });
+
+    $(document).ready(function(){
+
+        $('#back-quiz').hide();
+        $('#finish-exam').hide();
+        $('#next-quiz').html('Start');
+
+    });
+
 
 </script>
