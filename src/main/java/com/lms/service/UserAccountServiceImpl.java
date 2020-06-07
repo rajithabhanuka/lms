@@ -1,9 +1,12 @@
 package com.lms.service;
 
+import com.lms.model.Role;
 import com.lms.model.User;
 import com.lms.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -61,5 +64,10 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public void delete(User account) {
 
+    }
+
+    @Override
+    public List<User> getUserByRole(Role role) {
+        return userRepository.getUserByRole(role);
     }
 }

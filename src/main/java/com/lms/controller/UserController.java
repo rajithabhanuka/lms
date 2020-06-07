@@ -31,14 +31,14 @@ public class UserController {
     @Autowired
     private UserAccountService userAccountService;
 
-    @RequestMapping(value = "/createuser", method = RequestMethod.GET)
-    public String create() {
-        return "createuser";
+    @RequestMapping(value = "/create_user", method = RequestMethod.GET)
+    public String create_user_view() {
+        return "create_user";
     }
 
     @ResponseBody
-    @RequestMapping(value = "/createuser", method = RequestMethod.POST, consumes = "application/json")
-    public String createuser(@RequestBody String userJson) {
+    @RequestMapping(value = "/create_user", method = RequestMethod.POST, consumes = "application/json")
+    public String create_user(@RequestBody String userJson) {
 
         String response = "{}";
 

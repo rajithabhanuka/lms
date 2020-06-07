@@ -12,13 +12,16 @@ import java.util.Date;
  * */
 
 @Document
-public class UserAnswers implements Serializable {
+public class StudentsAnswers implements Serializable {
 
     @Id
     private String id;
 
     @Indexed(name = "studentId_idx", background = true)
     private String studentId;
+
+    @Indexed(name = "examId_idx", background = true)
+    private String examId;
 
     @Indexed(name = "questionId_idx", background = true)
     private String questionId;
@@ -43,6 +46,15 @@ public class UserAnswers implements Serializable {
     public void setStudentId(String studentId) {
         this.studentId = studentId;
     }
+
+    public String getExamId() {
+        return examId;
+    }
+
+    public void setExamId(String examId) {
+        this.examId = examId;
+    }
+
 
     public String getQuestionId() {
         return questionId;

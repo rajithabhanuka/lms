@@ -21,7 +21,7 @@ public class QuestionChoices implements Serializable {
 
     @Indexed(name = "questionid_idx", background = true)
     private String questionid;
-    private String choce;
+    private String choice;
     private Boolean iscorrect;
 
     public String getId() {
@@ -48,12 +48,12 @@ public class QuestionChoices implements Serializable {
         this.questionid = questionid;
     }
 
-    public String getChoce() {
-        return choce;
+    public String getChoice() {
+        return choice;
     }
 
-    public void setChoce(String choce) {
-        this.choce = choce;
+    public void setChoce(String choice) {
+        this.choice = choice;
     }
 
     public Boolean getIscorrect() {

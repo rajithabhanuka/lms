@@ -4,17 +4,21 @@
 <div th:fragment="teachermenu" class="col-md-12">
     <section class="content-header">
         <ol class="breadcrumb">
-            <li class="active"><a th:href="@{/createuser}">
+            <li class="active"><a th:href="@{/create_user}">
                 <i class="fa fa-dashboard"></i>
                 <span>Create User</span>
             </a></li>
-            <li ><a th:href="@{/create_exam}">
+            <li><a th:href="@{/create_exam}">
                 <i class="fa fa-dashboard"></i>
                 <span>Create Exam</span>
             </a></li>
-            <li ><a th:href="@{/assign_quizz}">
+            <li><a th:href="@{/assign_quizz}">
                 <i class="fa fa-dashboard"></i>
                 <span>Create Quiz</span>
+            </a></li>
+            <li><a th:href="@{/assign_exams_to_students}">
+                <i class="fa fa-dashboard"></i>
+                <span>Assign Exams</span>
             </a></li>
         </ol>
     </section>

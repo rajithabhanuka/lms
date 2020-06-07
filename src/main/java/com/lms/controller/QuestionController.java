@@ -47,13 +47,29 @@ public class QuestionController {
 
     @ResponseBody
     @RequestMapping(value = "/assign_quizz", method = RequestMethod.POST, consumes = "application/json")
-    public String assign_quizz(@RequestBody String QuizJson, HttpServletRequest request, Model model) {
+    public String assign_quizz(@RequestBody String QuizJson, HttpServletRequest request) {
         String response = "{}";
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             Question question = objectMapper.readValue(QuizJson, Question.class);
 
-            questionService.save(question);
+            if (!question.getQuestionChoices().get(0).getChoice().equals("") ||
+                    !question.getQuestionChoices().get(1).getChoice().equals("") ||
+                    !question.getQuestionChoices().get(2).getChoice().equals("") ||
+                    !question.getQuestionChoices().get(3).getChoice().equals("") ||
+                    !question.getQuestionChoices().get(4).getChoice().equals("") ||
+                    !question.getQuestion().equals("")) {
+
+                Question created = questionService.save(question);
+
+                if (created != null) {
+                    response = new CustomResponse(Constants.SUCCESS, "SUCCESS").toJson();
+                } else {
+                    response = new CustomResponse(Constants.FAIL, "FAIL").toJson();
+                }
+            } else {
+                response = new CustomResponse(Constants.MISSING_DATA, "FAIL").toJson();
+            }
 
         } catch (Exception ex) {
             LOGGER.error(ex);

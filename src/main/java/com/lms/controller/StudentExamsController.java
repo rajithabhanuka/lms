@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lms.constant.Constants;
 import com.lms.model.*;
 import com.lms.service.ExamService;
+import com.lms.service.StudentExamsService;
 import com.lms.service.UserAccountService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.List;
 
 /*
@@ -24,43 +24,50 @@ import java.util.List;
  * */
 
 @Controller
-public class ExamController {
+public class StudentExamsController {
 
-    private static final Logger LOGGER = LogManager.getLogger(ExamController.class);
+    private static final Logger LOGGER = LogManager.getLogger(StudentExamsController.class);
 
     @Autowired
     private ExamService examService;
 
+    @Autowired
+    private UserAccountService userAccountService;
+
+    @Autowired
+    private StudentExamsService studentExamsService;
+
     //TODO comments should be added
     //TODO error handling should be added
 
-    @RequestMapping(value = "/create_exam", method = RequestMethod.GET)
-    public String create_exam_view() {
-        return "create_exam";
+    @RequestMapping(value = "/assign_exams_to_students", method = RequestMethod.GET)
+    public String assign_exams_to_students_view(HttpServletRequest request, Model model) {
+
+        List<User> users = userAccountService.getUserByRole(Role.STUDENT);
+        List<Exam> exams = examService.getExamByTeacher((String) request.getSession().getAttribute("USER_ID"));
+        model.addAttribute("users", users);
+        model.addAttribute("exams", exams);
+        return "assign_exams_to_students";
     }
 
     @ResponseBody
-    @RequestMapping(value = "/create_exam", method = RequestMethod.POST, consumes = "application/json")
-    public String create_exam(HttpServletRequest request, @RequestBody String ExamJson) {
+    @RequestMapping(value = "/assign_exams_to_students", method = RequestMethod.POST, consumes = "application/json")
+    public String assign_exams_to_students(HttpServletRequest request, @RequestBody String StudentExamJson) {
 
         String response = "{}";
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            Exam exam = objectMapper.readValue(ExamJson, Exam.class);
+            StudentsExams studentsExams = objectMapper.readValue(StudentExamJson, StudentsExams.class);
 
-            if (!exam.getExamname().isEmpty() || !exam.getExamname().equals("")) {
-
-                exam.setCreatedDate(new Date());
-
-                Exam created = examService.save(exam);
+            if (studentsExams.getStudentId() != null || studentsExams.getExamId() != null) {
+                StudentsExams created = studentExamsService.save(studentsExams);
 
                 if (created != null) {
                     response = new CustomResponse(Constants.SUCCESS, "SUCCESS").toJson();
                 } else {
                     response = new CustomResponse(Constants.FAIL, "FAIL").toJson();
                 }
-
             } else {
                 response = new CustomResponse(Constants.MISSING_DATA, "FAIL").toJson();
             }
@@ -72,5 +79,4 @@ public class ExamController {
 
         return response;
     }
-
 }

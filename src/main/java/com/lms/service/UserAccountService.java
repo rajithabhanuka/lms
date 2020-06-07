@@ -1,5 +1,6 @@
 package com.lms.service;
 
+import com.lms.model.Role;
 import com.lms.model.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -16,4 +17,6 @@ public interface UserAccountService extends UserDetailsService {
     List<User> getAll();
 
     void delete(User user);
+
+    List<User> getUserByRole(Role role);
 }

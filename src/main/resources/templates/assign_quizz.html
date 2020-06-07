@@ -208,6 +208,7 @@
         var iscorrect4 = document.getElementById("is-answer4").checked;
         var iscorrect5 = document.getElementById("is-answer5").checked;
         var status = get_status();
+        var quiztionId = Math.random().toString().slice(2,11);
 
         if (question === '' || answer1 === '' || answer2 === '' || answer3 === '' || answer4 === '' || answer5 === '') {
             alert("Required fields can not be null");
@@ -222,7 +223,7 @@
         var ChoiceOne = {
             'id': "1",
             'examid': examid,
-            'questionid': 123,
+            'questionid': quiztionId,
             'choce': answer1,
             'iscorrect': iscorrect1
         }
@@ -230,7 +231,7 @@
         var ChoiceOTwo = {
             'id': "2",
             'examid': examid,
-            'questionid': 123,
+            'questionid': quiztionId,
             'choce': answer2,
             'iscorrect': iscorrect2
         };
@@ -238,7 +239,7 @@
         var ChoiceThree = {
             'id': "3",
             'examid': examid,
-            'questionid': 123,
+            'questionid': quiztionId,
             'choce': answer3,
             'iscorrect': iscorrect3
         }
@@ -246,7 +247,7 @@
         var ChoiceFour = {
             'id': "4",
             'examid': examid,
-            'questionid': 123,
+            'questionid': quiztionId,
             'choce': answer4,
             'iscorrect': iscorrect4
         }
@@ -254,13 +255,14 @@
         var ChoiceFive = {
             'id': "5",
             'examid': examid,
-            'questionid': 123,
+            'questionid': quiztionId,
             'choce': answer5,
             'iscorrect': iscorrect5
         }
 
 
         var QuestionDetails = {
+            'id' : quiztionId,
             'examid': examid,
             'question': question,
             'status': status,
