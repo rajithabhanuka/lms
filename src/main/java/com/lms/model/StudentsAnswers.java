@@ -28,7 +28,7 @@ public class StudentsAnswers implements Serializable {
 
     @Indexed(name = "choiceId_idx", background = true)
     private String choiceId;
-    private String isRight;
+    private boolean isRight;
     private Date completedTime;
 
     public String getId() {
@@ -72,11 +72,11 @@ public class StudentsAnswers implements Serializable {
         this.choiceId = choiceId;
     }
 
-    public String getIsRight() {
+    public boolean getIsRight() {
         return isRight;
     }
 
-    public void setIsRight(String isRight) {
+    public void setIsRight(boolean isRight) {
         this.isRight = isRight;
     }
 

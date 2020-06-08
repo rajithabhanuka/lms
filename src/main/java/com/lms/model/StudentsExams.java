@@ -24,6 +24,8 @@ public class StudentsExams implements Serializable {
 
     private boolean status;
 
+    private int attempts;
+
     public String getId() {
         return id;
     }
@@ -54,5 +56,13 @@ public class StudentsExams implements Serializable {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public int getAttempts() {
+        return attempts;
+    }
+
+    public void setAttempts(int attempts) {
+        this.attempts = attempts;
     }
 }

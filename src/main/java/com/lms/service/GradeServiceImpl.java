@@ -45,8 +45,11 @@ public class GradeServiceImpl implements GradeService {
                         if (defaultchoices.getIscorrect()) {
                             if (defaultchoices.getId().equals(studentsAnswer.getChoiceId())) {
                                 correctScore.add(studentsAnswer.getQuestionId());
+                                studentsAnswer.setIsRight(true);
+                                System.out.println("correct answer found");
                             }
                         } else {
+                            studentsAnswer.setIsRight(false);
                             System.out.println("discard choice");
                         }
 
@@ -56,7 +59,9 @@ public class GradeServiceImpl implements GradeService {
 
         }
 
-        int score = (correctScore.size() / questions.size() * 100);
+        int correct_answer_count = correctScore.size();
+        int questions_count = questions.size();
+        double score = (double) correct_answer_count / (double) questions_count * 100;
         grade.setGrade(score + "");
 
         return gradeRepository.save(grade);

@@ -13,6 +13,10 @@ public class test {
         map.put("10", "3");
         map.put(null, null);
 
-        System.out.println(map.get("1"));
+        int correct_answer_count = 4;
+        int questions_count = 5;
+        double score = (double)correct_answer_count / (double)questions_count * 100;
+
+        System.out.println(score);
     }
 }

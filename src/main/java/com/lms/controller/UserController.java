@@ -2,11 +2,9 @@ package com.lms.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lms.constant.Constants;
-import com.lms.model.CustomResponse;
-import com.lms.model.Exam;
-import com.lms.model.Role;
-import com.lms.model.User;
+import com.lms.model.*;
 import com.lms.service.ExamService;
+import com.lms.service.StudentExamsService;
 import com.lms.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
  * Created by Bhanuka
@@ -39,6 +39,9 @@ public class UserController {
 
     @Autowired
     private ExamService examService;
+
+    @Autowired
+    private StudentExamsService studentExamsService;
 
     @RequestMapping(value = "/create_user", method = RequestMethod.GET)
     public String create_user_view() {
@@ -84,6 +87,12 @@ public class UserController {
         String user_id = (String) request.getSession().getAttribute("USER_ID");
         List<Exam> exams = null;
         try {
+            Map<String, Integer> assignExams = new HashMap<>();
+            List<StudentsExams> studentsExams = studentExamsService.getAssignExamByStudentID(user_id);
+            for (StudentsExams studentsExams1: studentsExams) {
+                assignExams.put(studentsExams1.getExamId(), studentsExams1.getAttempts());
+            }
+
             User user = userService.findById(user_id);
             if (user.getRole().equals(Role.TEACHER)) {
                 exams = examService.getExamByTeacher(user_id);
@@ -92,6 +101,7 @@ public class UserController {
             }
             model.addAttribute("user", user);
             model.addAttribute("exams", exams);
+            model.addAttribute("assignExams", assignExams);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

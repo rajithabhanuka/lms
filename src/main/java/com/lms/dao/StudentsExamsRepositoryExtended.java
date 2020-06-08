@@ -12,4 +12,6 @@ public interface StudentsExamsRepositoryExtended {
 
     List<StudentsExams> getAssignExamByStudentID(String studentId);
 
+    void updateFinishedExam(String examId, String studentId);
+
 }

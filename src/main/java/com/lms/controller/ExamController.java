@@ -3,9 +3,7 @@ package com.lms.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lms.constant.Constants;
 import com.lms.model.*;
-import com.lms.service.ExamService;
-import com.lms.service.GradeService;
-import com.lms.service.QuestionService;
+import com.lms.service.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +34,12 @@ public class ExamController {
 
     @Autowired
     private GradeService gradeService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private StudentExamsService studentExamsService;
 
     //TODO comments should be added
     //TODO error handling should be added
@@ -156,7 +160,7 @@ public class ExamController {
         try {
 
             Map<String, String> answermap = null;
-            List<StudentsAnswers> studentsAnswers  = new ArrayList<>();
+            List<StudentsAnswers> studentsAnswers = new ArrayList<>();
 
             if (request.getSession().getAttribute("answermap") != null) {
 
@@ -179,16 +183,13 @@ public class ExamController {
                     studentsAnswer.setQuestionId(entry.getKey());
                     studentsAnswer.setChoiceId(entry.getValue());
                     studentsAnswer.setCompletedTime(new Date());
-                    studentsAnswer.setIsRight("Not-Marked" +
-                            "" +
-                            "" +
-                            "");
                     studentsAnswers.add(studentsAnswer);
                 }
 
                 grade.setStudentsAnswers(studentsAnswers);
 
                 Grade created = gradeService.save(grade);
+                studentExamsService.updateFinishedExam(studentsAnswerDetails.getExamId(), studentsAnswerDetails.getStudentId());
 
                 if (created != null) {
                     response = new CustomResponse(Constants.SUCCESS, "SUCCESS").toJson();
@@ -205,6 +206,53 @@ public class ExamController {
         }
 
         return response;
+    }
+
+    @RequestMapping(value = "/view_exams", method = RequestMethod.GET)
+    public String view_exam_view(HttpServletRequest request, Model model) {
+        String user_id = (String) request.getSession().getAttribute("USER_ID");
+        List<Exam> exams = null;
+        try {
+            Map<String, Integer> assignExams = new HashMap<>();
+            User user = userService.findById(user_id);
+            List<StudentsExams> studentsExams = studentExamsService.getAssignExamByStudentID(user_id);
+
+            for (StudentsExams studentsExams1: studentsExams) {
+                assignExams.put(studentsExams1.getExamId(), studentsExams1.getAttempts());
+            }
+
+            if (user.getRole().equals(Role.TEACHER)) {
+                exams = examService.getExamByTeacher(user_id);
+            } else if (user.getRole().equals(Role.STUDENT)) {
+                exams = examService.getAssignExamByStudentID(user_id);
+            }
+            model.addAttribute("user", user);
+            model.addAttribute("exams", exams);
+            model.addAttribute("assignExams", assignExams);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return "view_exams";
+    }
+
+    @RequestMapping(value = "/view_result", method = RequestMethod.GET)
+    public String view_result(HttpServletRequest request, Model model) {
+
+        String user_id = (String) request.getSession().getAttribute("USER_ID");
+        List<Exam> exams = null;
+        try {
+            User user = userService.findById(user_id);
+            if (user.getRole().equals(Role.TEACHER)) {
+                exams = examService.getExamByTeacher(user_id);
+            } else if (user.getRole().equals(Role.STUDENT)) {
+                exams = examService.getAssignExamByStudentID(user_id);
+            }
+            model.addAttribute("user", user);
+            model.addAttribute("exams", exams);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return "view_result";
     }
 
 }

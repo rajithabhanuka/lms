@@ -111,12 +111,15 @@
                                 </button>
                             </form>
                         <td sec:authorize="hasAuthority('STUDENT')">
-                            <form th:action="@{/launch_exam}" method="post">
-                                <input type="hidden" name="selected_exam_id" th:value="${exam.getId()}"/>
-                                <button type="submit" class="btn btn-primary">
-                                    Launch Exam
-                                </button>
-                            </form>
+                        <form th:action="@{/launch_exam}" method="post">
+                            <input type="hidden" name="selected_exam_id" th:value="${exam.getId()}"/>
+                            <button type="button" th:if="${assignExams[exam.getId()]==1}" class="btn btn-primary">
+                                Already Submitted
+                            </button>
+                            <button type="submit" th:if="${assignExams[exam.getId()]<1}" class="btn btn-primary">
+                                Launch Exam
+                            </button>
+                        </form>
                     </tr>
                     </tbody>
                 </table>
