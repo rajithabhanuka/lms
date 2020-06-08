@@ -42,8 +42,19 @@ public class StudentsExamsRepositoryImpl implements StudentsExamsRepositoryExten
 
             mongoTemplate.updateFirst(query, update, StudentsExams.class);
         } catch (Exception ex) {
-
+            //TODO logger
+            System.out.println("error ----");
         }
 
+    }
+
+    @Override
+    public List<StudentsExams> getFinishedExamByStudentID(String studentId) {
+        Query query = new Query();
+        Criteria criteria = new Criteria("studentId").is(studentId);
+        //TODO attempts greater than one only
+        Criteria criteria1 = new Criteria("attempts").gte(1);
+        query.addCriteria(criteria).addCriteria(criteria1);
+        return mongoTemplate.find(query, StudentsExams.class);
     }
 }

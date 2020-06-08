@@ -24,4 +24,6 @@ public interface ExamService {
 
     List<Exam> getAssignExamByStudentID(String studentId);
 
+    List<Exam> getFinishedExamByStudentID(String studentId);
+
 }

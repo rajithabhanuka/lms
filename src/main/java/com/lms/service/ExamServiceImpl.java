@@ -46,4 +46,9 @@ public class ExamServiceImpl implements ExamService{
     public Exam findById(String id) {
         return examRepository.findExamById(id);
     }
+
+    @Override
+    public List<Exam> getFinishedExamByStudentID(String studentId) {
+        return examRepository.getFinishedExamByStudentID(studentId);
+    }
 }

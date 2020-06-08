@@ -235,24 +235,4 @@ public class ExamController {
         return "view_exams";
     }
 
-    @RequestMapping(value = "/view_result", method = RequestMethod.GET)
-    public String view_result(HttpServletRequest request, Model model) {
-
-        String user_id = (String) request.getSession().getAttribute("USER_ID");
-        List<Exam> exams = null;
-        try {
-            User user = userService.findById(user_id);
-            if (user.getRole().equals(Role.TEACHER)) {
-                exams = examService.getExamByTeacher(user_id);
-            } else if (user.getRole().equals(Role.STUDENT)) {
-                exams = examService.getAssignExamByStudentID(user_id);
-            }
-            model.addAttribute("user", user);
-            model.addAttribute("exams", exams);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return "view_result";
-    }
-
 }

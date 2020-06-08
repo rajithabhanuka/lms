@@ -20,4 +20,6 @@ public interface GradeService {
 
     Grade findById(String id);
 
+    List<Grade> getGradeByStudentAndExam(String studentId, String examId);
+
 }

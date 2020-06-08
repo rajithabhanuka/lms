@@ -44,6 +44,20 @@ public class ExamRepositoryImpl implements ExamRepositoryExtended {
     }
 
     @Override
+    public List<Exam> getFinishedExamByStudentID(String studentId) {
+        List<StudentsExams> studentsExams =  studentsExamsRepository.getFinishedExamByStudentID(studentId);
+
+        List<Exam> exams = new ArrayList<>();
+
+        for (StudentsExams assignExam : studentsExams) {
+            Exam exam = mongoTemplate.findById(assignExam.getExamId(), Exam.class);
+            exams.add(exam);
+        }
+
+        return exams;
+    }
+
+    @Override
     public Exam findExamById(String id) {
         return mongoTemplate.findById(id, Exam.class);
     }

@@ -15,5 +15,7 @@ public interface ExamRepositoryExtended {
 
     List<Exam> getAssignExamByStudentID(String studentId);
 
+    List<Exam> getFinishedExamByStudentID(String studentId);
+
     Exam findExamById(String id);
 }

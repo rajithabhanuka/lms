@@ -63,6 +63,8 @@ public class GradeServiceImpl implements GradeService {
         int questions_count = questions.size();
         double score = (double) correct_answer_count / (double) questions_count * 100;
         grade.setGrade(score + "");
+        grade.setCorrect_answer_count(correct_answer_count);
+        grade.setQuestions_count(questions_count);
 
         return gradeRepository.save(grade);
     }
@@ -80,5 +82,10 @@ public class GradeServiceImpl implements GradeService {
     @Override
     public Grade findById(String id) {
         return null;
+    }
+
+    @Override
+    public List<Grade> getGradeByStudentAndExam(String studentId, String examId) {
+        return gradeRepository.getGradeByStudentAndExam(studentId, examId);
     }
 }

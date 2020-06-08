@@ -39,8 +39,31 @@
             <div class="col-md-2">
             </div>
             <div class="col-md-8">
-
-
+                <div class="form-group">
+                    <span th:value="${gradesMap.size()==0}">No Exams Available</span>
+                    <label>
+                        Exam
+                    </label>
+                    <div th:if="${gradesMap.size() > 0}" th:each="gradeMap : ${gradesMap}">
+                        <div th:text="${gradeMap}"></div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Correct Answer Count</th>
+                                <th scope="col">Grade</th>
+                                <th scope="col">Attempts</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><span th:text="${2}"></span></td>
+                                <td><span th:text="${80}"></span></td>
+                                <td><span th:text="${1}"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="col-md-2">
             </div>

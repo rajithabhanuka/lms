@@ -24,7 +24,9 @@ public class Grade implements Serializable {
     private String studentId;
     private String grade;
     private String status;
-    List<StudentsAnswers> studentsAnswers;
+    private List<StudentsAnswers> studentsAnswers;
+    private int correct_answer_count;
+    private int questions_count;
 
     public String getId() {
         return id;
@@ -72,5 +74,21 @@ public class Grade implements Serializable {
 
     public void setStudentsAnswers(List<StudentsAnswers> studentsAnswers) {
         this.studentsAnswers = studentsAnswers;
+    }
+
+    public int getCorrect_answer_count() {
+        return correct_answer_count;
+    }
+
+    public void setCorrect_answer_count(int correct_answer_count) {
+        this.correct_answer_count = correct_answer_count;
+    }
+
+    public int getQuestions_count() {
+        return questions_count;
+    }
+
+    public void setQuestions_count(int questions_count) {
+        this.questions_count = questions_count;
     }
 }
