@@ -164,7 +164,7 @@
             return;
         }
 
-        var newUser = {
+        var update_user = {
             'email': email,
             'name': name,
             'role': user_role,
@@ -174,13 +174,17 @@
         $.ajax({
             async: false,
             method: "POST",
-            url: '/create_user',
-            data: JSON.stringify(newUser),
-            dataType: 'text',
+            url: '/update_profile',
+            data: JSON.stringify(update_user),
+            dataType: 'json',
             contentType: 'application/json',
             cache: false,
-            success: function (data) {
-
+            success: function (ret) {
+                if (ret.status === 'SUCCESS') {
+                    alert(ret.message);
+                } else {
+                    alert(ret.message);
+                }
             },
             error: function (xhr, status, err) {
                 alert("Server cannot be reached!");

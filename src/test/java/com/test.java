@@ -13,6 +13,6 @@ public class test {
         map.put("10", "3");
         map.put(null, null);
 
-        System.out.println(map);
+        System.out.println(map.get("1"));
     }
 }

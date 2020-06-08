@@ -32,7 +32,7 @@
                     <input type="text" class="form-control" th:value="${exam.getExamname()}" id="txt-exam"
                            disabled/>
                 </div>
-
+                <input type="hidden" th:value="${exam.getId()}" id="exam-id">
                 <div class="form-group">
                     <label for="txt-exam">
                         Exam Duration
@@ -127,6 +127,37 @@
             }
         }
     }
+
+    $('#finish-exam').on('click', function () {
+        var examId = $('#exam-id').val();
+        var studentId = $('#txt-user-id').val();
+
+        var exam_json = {
+            'examId': examId,
+            'studentId': studentId
+        };
+
+        $.ajax({
+            async: false,
+            method: "POST",
+            url: '/finish_exam',
+            data: JSON.stringify(exam_json),
+            dataType: 'json',
+            contentType: 'application/json',
+            cache: false,
+            success: function (ret) {
+                if (ret.status === 'SUCCESS') {
+                    alert(ret.message);
+                    window.location.href = "/home";
+                } else {
+                    alert(ret.message);
+                }
+            },
+            error: function (xhr, status, err) {
+                alert("Server cannot be reached!");
+            }
+        });
+    });
 
 
 </script>
