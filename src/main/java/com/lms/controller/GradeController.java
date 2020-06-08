@@ -46,7 +46,8 @@ public class GradeController {
         String user_id = (String) request.getSession().getAttribute("USER_ID");
         List<Exam> exams = null;
         List<Grade> grades = new ArrayList<>();
-        Map<Integer, Map<String, String>> gradesMap = new HashMap<>();
+        //Map<Integer, Map<String, String>> gradesMap = new HashMap<>();
+        List gradesMap = new ArrayList();
         Map<String, String> gradeMap = new HashMap<>();
         try {
             User user = userService.findById(user_id);
@@ -82,7 +83,7 @@ public class GradeController {
                     gradeMap.put("correct_answer_count", grade.getCorrect_answer_count() + "");
                     gradeMap.put("question_count", grade.getQuestions_count() + "");
 
-                    gradesMap.put(i, gradeMap);
+                    gradesMap.add(gradeMap);
 
                 }
             }
