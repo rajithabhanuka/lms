@@ -40,7 +40,7 @@
             </div>
             <div class="col-md-8">
                 <div class="form-group">
-                    <span th:value="${gradesMap.size()==0}">No Exams Available</span>
+                    <span th:if="${gradesMap.size()==0}">No Exams Available</span>
 
                     <div th:if="${gradesMap.size() > 0}" th:each="gradeMap : ${gradesMap}">
                         <div th:text="${gradeMap['exam_name']}"></div>

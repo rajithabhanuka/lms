@@ -47,8 +47,8 @@ public class GradeController {
         List<Exam> exams = null;
         List<Grade> grades = new ArrayList<>();
         //Map<Integer, Map<String, String>> gradesMap = new HashMap<>();
-        List gradesMap = new ArrayList();
-        Map<String, String> gradeMap = new HashMap<>();
+        List<Map<String, String>> gradesList = new ArrayList();
+        Map<String, String> gradeMap;
         try {
             User user = userService.findById(user_id);
             if (user.getRole().equals(Role.TEACHER)) {
@@ -56,41 +56,38 @@ public class GradeController {
             } else if (user.getRole().equals(Role.STUDENT)) {
                 exams = examService.getFinishedExamByStudentID(user_id);
             }
-            int i = 0;
             for (Exam exam : exams) {
+                gradeMap = new HashMap<>();
                 if (gradeService.getGradeByStudentAndExam(user_id, exam.getId()).size() > 0) {
                     //   grades.add(gradeService.getGradeByStudentAndExam(user_id, exam.getId()).get(0));
 
                     Grade grade = gradeService.getGradeByStudentAndExam(user_id, exam.getId()).get(0);
                     List<Question> question = questionService.findQuestionByExamId(exam.getId());
 
-                    for (Question quiz : question) {
-                        List<StudentsAnswers> studentsAnswers = gradeService.getGradeByStudentAndExam(user_id, exam.getId()).get(0).getStudentsAnswers();
-                        for (StudentsAnswers studentsAnswers1 : studentsAnswers) {
-                            for (QuestionChoices questionChoices : quiz.getQuestionChoices()) {
-                                if (questionChoices.getQuestionid().equals(studentsAnswers1.getQuestionId())) {
-                                    studentsAnswers1.getChoiceId();
-                                }
-                            }
-                        }
-                    }
+//                    for (Question quiz : question) {
+//                        List<StudentsAnswers> studentsAnswers = gradeService.getGradeByStudentAndExam(user_id, exam.getId()).get(0).getStudentsAnswers();
+//                        for (StudentsAnswers studentsAnswers1 : studentsAnswers) {
+//                            for (QuestionChoices questionChoices : quiz.getQuestionChoices()) {
+//                                if (questionChoices.getQuestionid().equals(studentsAnswers1.getQuestionId())) {
+//                                    studentsAnswers1.getChoiceId();
+//                                }
+//                            }
+//                        }
+//                    }
 
 
                     //studentsAnswers.get(0).ge
-                    i++;
                     gradeMap.put("exam_name", exam.getExamname());
                     gradeMap.put("grade", grade.getGrade());
                     gradeMap.put("correct_answer_count", grade.getCorrect_answer_count() + "");
                     gradeMap.put("question_count", grade.getQuestions_count() + "");
-
-                    gradesMap.add(gradeMap);
-
+                    gradesList.add(gradeMap);
                 }
             }
 
             model.addAttribute("user", user);
             //  model.addAttribute("gradeMap", gradeMap);
-            model.addAttribute("gradesMap", gradesMap);
+            model.addAttribute("gradesMap", gradesList);
 
 
         } catch (Exception ex) {
