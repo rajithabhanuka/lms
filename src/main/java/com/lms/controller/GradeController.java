@@ -46,7 +46,6 @@ public class GradeController {
         String user_id = (String) request.getSession().getAttribute("USER_ID");
         List<Exam> exams = null;
         List<Grade> grades = new ArrayList<>();
-        //Map<Integer, Map<String, String>> gradesMap = new HashMap<>();
         List<Map<String, String>> gradesList = new ArrayList();
         Map<String, String> gradeMap;
         try {
@@ -59,21 +58,26 @@ public class GradeController {
             for (Exam exam : exams) {
                 gradeMap = new HashMap<>();
                 if (gradeService.getGradeByStudentAndExam(user_id, exam.getId()).size() > 0) {
-                    //   grades.add(gradeService.getGradeByStudentAndExam(user_id, exam.getId()).get(0));
 
-                    Grade grade = gradeService.getGradeByStudentAndExam(user_id, exam.getId()).get(0);
                     List<Question> question = questionService.findQuestionByExamId(exam.getId());
 
-//                    for (Question quiz : question) {
-//                        List<StudentsAnswers> studentsAnswers = gradeService.getGradeByStudentAndExam(user_id, exam.getId()).get(0).getStudentsAnswers();
-//                        for (StudentsAnswers studentsAnswers1 : studentsAnswers) {
+                    Grade grade = gradeService.getGradeByStudentAndExam(user_id, exam.getId()).get(0);
+                    List<StudentsAnswers> studentsAnswers = gradeService.getGradeByStudentAndExam(user_id, exam.getId()).get(0).getStudentsAnswers();
+
+                    for (Question quiz : question) {
+
+                        for (StudentsAnswers studentsAnswers1 : studentsAnswers) {
+
+                           // QuestionChoices choice = questionChoicesService.getChoiceByIdAndExamIdandQuestionId(studentsAnswers1.getChoiceId(), studentsAnswers1.getExamId(), studentsAnswers1.getQuestionId());
+
 //                            for (QuestionChoices questionChoices : quiz.getQuestionChoices()) {
-//                                if (questionChoices.getQuestionid().equals(studentsAnswers1.getQuestionId())) {
-//                                    studentsAnswers1.getChoiceId();
+//                                if (studentsAnswers1.getQuestionId().equals(questionChoices.getQuestionid()) &&
+//                                        studentsAnswers1.getExamId().equals(questionChoices.getExamid())) {
+//                                    System.out.println(studentsAnswers1.getChoiceId());
 //                                }
 //                            }
-//                        }
-//                    }
+                        }
+                    }
 
 
                     //studentsAnswers.get(0).ge
