@@ -12,8 +12,8 @@ Exit
 
 ./mongo localhost/lms_db -u 'root' -p '12345';
 
-db.createCollection("User")
+db.createCollection("user")
 
-db.User.insert({"email" : "rajithabhanuka1@gmail.com", "password": "123", "role": "TEACHER", "regdate" : "2020-06-05"});
+db.user.insert({"email" : "rajithabhanuka1@gmail.com", "password": "123", "name": "Bhanuka", "role": "TEACHER", "regdate" : "2020-06-05"});
 
-db.User.insert({"email" : "rajithabhanuka3@gmail.com", "password": "admin", "role": "TEACHER", "regdate" : "2020-06-05"});
+db.user.insert({"email" : "rajithabhanuka3@gmail.com", "password": "admin", "name": "Rajitha", "role": "TEACHER", "regdate" : "2020-06-05"});
