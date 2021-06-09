@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Bhanuka
  * */
 
-@Document
+@Document(collection = "questions")
 public class Question implements Serializable {
 
     @Id
